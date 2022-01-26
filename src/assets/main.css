@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@keyframes fadeInRotate {
+  from {
+    transform: rotate(-0.9turn);
+  }
+  to {
+    transform: rotate(0turn);
+  }
+}
+
+.fadeInRotate {
+  -webkit-animation: fadeInRotate 4s ease;
+  animation: fadeInRotate 4s ease;
+}
+
+
+@keyframes slideUp {
+  0%{
+     transform: translateY(100px);
+  }
+  100%{
+     transform: translateY(0);
+  }
+}
+
+.slideUp {
+ -webkit-animation: slideUp 2s ease;
+ animation: slideUp 2s ease;
+}
+
+
+
+
