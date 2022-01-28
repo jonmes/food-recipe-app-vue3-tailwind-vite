@@ -68,12 +68,9 @@
                         <button v-if="!authenticated" @click="login">
                             Login
                         </button>
-                        <button v-if="authenticated" @click="logout">
-                            &nbsp;&nbsp;&nbsp;{{
-                                userData.nickname
-                            }}
-                            &nbsp;&nbsp;&nbsp;Logout
-                        </button>
+                        <!-- <button v-if="authenticated" @click="logout">
+                            Logout
+                        </button> -->
 
                         <!-- <div v-if="!authLoading">
           </div> -->
@@ -82,6 +79,60 @@
                         <div
                             class="h-0.5 bg-green scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out"
                         />
+                    </li>
+                    <li v-show="authenticated">
+                        <!-- {{ nickname }} -->
+                        <div class="action">
+                            <div class="profile" @click="menuToggle">
+                                <img
+                                    class="inline object-cover w-8 h-8 rounded-full"
+                                    src="https://images.pexels.com/photos/2589653/pexels-photo-2589653.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+                                    alt="Profile image"
+                                />
+                            </div>
+                            <div class="menu">
+                                <h3>
+                                    {{nickname}}<br /><span
+                                        >Website Designer</span
+                                    >
+                                </h3>
+                                <ul>
+                                    <li><box-icon
+                                            name="user"
+                                            animation="burst-hover"
+                                            >
+                                        <i class="bx bx-user"></i>
+                                        </box-icon>
+                                        <a href="/profile">My Profile</a>
+                                    </li>
+                                    <li>
+                                        <box-icon
+                                            name="cog"
+                                            animation="spin-hover"
+                                            ><i class="bx bx-cog"></i></box-icon
+                                        ><a href="#">Settings</a>
+                                    </li>
+                                    <li>
+                                        <box-icon
+                                            name="bell"
+                                            animation="tada-hover"
+                                            ><i
+                                                class="bx bxs-like bx-tada-hover"
+                                            ></i
+                                        ></box-icon>
+                                        <a href="#">Notification</a>
+                                    </li>
+                                    <li><box-icon
+                                            name="log-out-circle"
+                                            animation="fade-left-hover"
+                                            >
+                                        <i class="bx bx-log-out-circle"></i>
+                                        </box-icon>
+                                        <a href="#" @click="logout">Logout</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -109,18 +160,115 @@ const store = useStore()
 const router = useRouter()
 
 const authLoading = computed(() => store.getters['main/isLoading'])
-const authenticated = computed(() => store.getters['main/authenticated'])
+const authenticated = computed(() => store.getters['main/isAuthenticated'])
 const userData = computed(() => store.getters['main/user'])
+let nickname = ref()
 
-const login = async () =>  {
+const login = async () => {
     await signIn()
     if (authenticated.value) {
         router.push({ name: 'Cook' })
+        nickname.value = userData.value.nickname
     }
 }
 const logout = async () => {
     await signOut()
 }
+const menuToggle = () => {
+    const toggleMenu = document.querySelector('.menu');
+    toggleMenu.classList.toggle('active');
+}
+
 </script>
 
-<style scoped></style>
+<style scoped>
+.action{
+    position: fixed;
+    top: -10px;
+    right:-60px;
+
+}
+.action .profile{
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+
+}
+.action .profile img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80%;
+    height: 80%;
+    object-fit: cover;
+}
+.action .menu{
+    position: absolute;
+    top: 60px;
+    right: -10px;
+    padding: 10px 20px;
+    background: #fff;
+    width: 200px;
+    box-sizing: 0 5px 25px rgba(0,0,0,0.1);
+    border-radius: 15px;
+    transition: 0.5s;
+    visibility: hidden;
+    opacity: 0;
+}
+.action .menu.active{
+    visibility: visible;
+    opacity: 1;
+}
+.action .menu::before{
+    content: '';
+    position: absolute;
+    top: -5px;
+    right: 28px;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    transform: rotate(45deg);
+}
+.action .menu h3{
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    padding: 20px 0;
+    font-weight: 500;
+    color: #555;
+    line-height: 1.2em;
+}
+.action .menu h3 span{
+    font-size: 14px;
+    color: #cecece;
+    font-weight: 400;
+}
+.action .menu ul li{
+    list-style: none;
+    padding: 10px 0;
+    border-top: 1px solid rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+}
+.action .menu ul li box-icon {
+    max-width: 20px;
+    margin-right: 10px;
+    opacity: 0.5;
+}
+.action .menu ul li:hover box-icon {
+    opacity: 1;
+}
+.action .menu ul li a {
+    display: inline-block;
+    text-decoration:  none;
+    color: #555;
+    font-weight: 500;
+    transition: 0.5s;
+}
+.action .menu ul li:hover a{
+    color: rgb(8, 228, 8);
+}
+</style>

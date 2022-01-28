@@ -104,7 +104,7 @@
                             <img :src="`/img/avatar-${i}.jpeg`" alt="" />
                         </div>
                     </div>
-                    <div class="pt-3 font-bold">Happy customers</div>
+                    <div class="pt-3 font-bold">Happy users</div>
                     <div
                         class="flex items-center text-gray-600 leading-relaxed"
                     >
