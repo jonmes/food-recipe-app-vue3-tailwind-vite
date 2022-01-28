@@ -36,7 +36,7 @@ export const signIn = async () => {
     token = await auth0Client.getTokenSilently();
     userInfo = await auth0Client.getUser();
     console.log(userInfo.sub);
-    console.log(token, "this is token");
+    // console.log(token, "this is token");
   } catch (e) {
     console.error(e);
   }
@@ -75,7 +75,7 @@ export const authGuard = async function (to, from, next) {
 import { ApolloClient, InMemoryCache } from "@apollo/client/core";
 import { setContext } from "@apollo/client/link/context";
 import { createApolloProvider } from "@vue/apollo-option";
-import { createHttpLink } from "@apollo/client";
+import { createHttpLink } from "@apollo/client/core";
 
 let apolloClient;
 
@@ -104,6 +104,7 @@ if (store.getters["main/isLoading"] === false) {
   })
 }
 
+export const apolloclient = apolloClient;
 
 export const apolloProvider = createApolloProvider({
     defaultClient: apolloClient,

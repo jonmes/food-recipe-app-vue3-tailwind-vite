@@ -6,15 +6,24 @@
                 <!-- Profile Card -->
                 <div class="bg-white p-3 border-t-4 border-green-400">
                     <div class="image overflow-hidden">
-                        <img
-                            class="h-auto w-full mx-auto"
-                            :src="userData.picture"
-                            alt=""
-                        />
+                        <p v-if="error">Something went wrong...</p>
+                        <p v-if="loading">Loading...</p>
+                        <template v-else>
+                            <img
+                                class="h-auto w-full mx-auto"
+                                :src="result.user_by_pk.avatar"
+                                alt=""
+                            />
+                        </template>
                     </div>
-                    <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">
-                        {{userData.nickname}}
-                    </h1>
+                    <h1
+                        class="text-gray-900 font-bold text-xl leading-8 my-1"
+                    ></h1>
+                    <p v-if="error">Something went wrong...</p>
+                    <p v-if="loading">Loading...</p>
+                    <p v-else>
+                        {{ result.user_by_pk.name }}
+                    </p>
                     <h3 class="text-gray-600 font-lg text-semibold leading-6">
                         Owner at Her Company Inc.
                     </h3>
@@ -550,17 +559,30 @@
 <script setup>
 import { useStore } from 'vuex'
 import { computed } from 'vue'
+import { useQuery, useResult } from '@vue/apollo-composable'
+import { user_account } from '../querys/query'
+
+// ========= ALTERNATIVE WAY TO CHANGE QUERY VARIABLE ==========
+// const variables = ref({ id: '' })
+// const id = userData.value.sub
+// const selectUser = (id) => {
+//  variables.value = {
+        // id,
+    // }
+// }
+// selectUser(id)
 
 const store = useStore()
 
 const userData = computed(() => store.getters['main/user'])
 
 
-
+const { result, loading, error } = useQuery(user_account.query, {id: userData.value.sub})
 
 const closeMenu = () => {
-    const toggleMenu = document.querySelector('.menu');
-    toggleMenu.classList.remove('active');
+    const toggleMenu = document.querySelector('.menu')
+    toggleMenu.classList.remove('active')
+    console.log(userData.value)
 }
 </script>
 
