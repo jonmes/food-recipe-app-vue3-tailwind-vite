@@ -8,6 +8,7 @@
             <router-link
                 :to="{ name: 'home' }"
                 class="text-3xl md:text-4xl font-bold tracking-wide slideUp"
+                @click="closeMenu"
             >
                 <span
                     class="before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-green relative inline-block"
@@ -27,7 +28,7 @@
                         class="text-lg md:text-base lg:text-lg font-medium group"
                         :class="{ 'text-green': activeMenu === 'home' }"
                     >
-                        <router-link :to="{ name: 'home' }">Home</router-link>
+                        <router-link :to="{ name: 'home' }" @click="closeMenu">Home</router-link>
                         <div
                             class="h-0.5 bg-green scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out"
                         />
@@ -36,7 +37,7 @@
                         class="text-lg md:text-base lg:text-lg font-medium group"
                         :class="{ 'text-green': activeMenu === 'about' }"
                     >
-                        <router-link :to="{ name: 'About' }">
+                        <router-link :to="{ name: 'About' }" @click="closeMenu">
                             About
                         </router-link>
                         <div
@@ -103,7 +104,7 @@
                                             >
                                         <i class="bx bx-user"></i>
                                         </box-icon>
-                                        <a href="/profile">My Profile</a>
+                                        <router-link :to="{name: 'Profile'}">My Profile</router-link>
                                     </li>
                                     <li>
                                         <box-icon
@@ -167,7 +168,7 @@ let nickname = ref()
 const login = async () => {
     await signIn()
     if (authenticated.value) {
-        router.push({ name: 'Cook' })
+        router.push({ name: 'home' })
         nickname.value = userData.value.nickname
     }
 }
@@ -177,6 +178,10 @@ const logout = async () => {
 const menuToggle = () => {
     const toggleMenu = document.querySelector('.menu');
     toggleMenu.classList.toggle('active');
+}
+const closeMenu = () => {
+    const toggleMenu = document.querySelector('.menu');
+    toggleMenu.classList.remove('active');
 }
 
 </script>
@@ -268,7 +273,17 @@ const menuToggle = () => {
     font-weight: 500;
     transition: 0.5s;
 }
+.action .menu ul li .router-link {
+    display: inline-block;
+    text-decoration:  none;
+    color: #555;
+    font-weight: 500;
+    transition: 0.5s;
+}
 .action .menu ul li:hover a{
+    color: rgb(8, 228, 8);
+}
+.action .menu ul li:hover .router-link{
     color: rgb(8, 228, 8);
 }
 </style>

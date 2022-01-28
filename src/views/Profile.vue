@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto my-5 p-5">
+    <div class="container mx-auto my-5 p-5" @click="closeMenu">
         <div class="md:flex no-wrap md:-mx-2">
             <!-- Left Side -->
             <div class="w-full md:w-3/12 md:mx-2">
@@ -8,12 +8,12 @@
                     <div class="image overflow-hidden">
                         <img
                             class="h-auto w-full mx-auto"
-                            src="https://lavinephotography.com.au/wp-content/uploads/2017/01/PROFILE-Photography-112.jpg"
+                            :src="userData.picture"
                             alt=""
                         />
                     </div>
                     <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">
-                        Jane Doe
+                        {{userData.nickname}}
                     </h1>
                     <h3 class="text-gray-600 font-lg text-semibold leading-6">
                         Owner at Her Company Inc.
@@ -547,6 +547,21 @@
     </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { useStore } from 'vuex'
+import { computed } from 'vue'
+
+const store = useStore()
+
+const userData = computed(() => store.getters['main/user'])
+
+
+
+
+const closeMenu = () => {
+    const toggleMenu = document.querySelector('.menu');
+    toggleMenu.classList.remove('active');
+}
+</script>
 
 <style lang="scss" scoped></style>
