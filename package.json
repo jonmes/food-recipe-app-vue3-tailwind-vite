@@ -11,6 +11,7 @@
     "@auth0/auth0-spa-js": "^1.19.4",
     "@vue/apollo-composable": "^4.0.0-alpha.16",
     "@vue/apollo-option": "^4.0.0-alpha.16",
+    "axios": "^0.25.0",
     "graphql": "^16.3.0",
     "graphql-tag": "^2.12.6",
     "vite-svg-loader": "^2.2.0",

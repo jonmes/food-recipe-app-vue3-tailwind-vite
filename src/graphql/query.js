@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 
 export const user_data = {
     query: gql`
-        query User{
+        query User {
             user {
                 id
                 name
@@ -23,14 +23,15 @@ export const user_account = {
         }
     `,
 }
-
-export const update_account = {
+export const user_post = {
     query: gql`
-        mutation ($id: String!) {
-            update_user_by_pk(pk_columns: { id: $id }, _set: { name: "joni" }) {
+        query Post($id: String!) {
+            recipes(where: { user_id: { _eq: $id } }) {
                 id
                 name
+                posted_at
             }
         }
     `,
 }
+

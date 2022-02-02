@@ -3,7 +3,7 @@ import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import Cook from '../views/Cook.vue'
 import Profile from '../views/Profile.vue'
-
+import ImageUpload from '../components/ImageUpload.vue'
 const routes = [
     {
         path: '/',
@@ -18,13 +18,18 @@ const routes = [
     {
         path: '/cook',
         name: 'Cook',
-        component: Cook
+        component: Cook,
     },
     {
         path: '/profile',
         name: 'Profile',
         component: Profile,
-    }
+    },
+    {
+        path: '/image-upload',
+        name: 'Image-upload',
+        component: ImageUpload,
+    },
 ]
 
 const router = createRouter({

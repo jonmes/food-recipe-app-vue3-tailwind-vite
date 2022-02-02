@@ -9,9 +9,18 @@
                         <p v-if="error">Something went wrong...</p>
                         <p v-if="loading">Loading...</p>
                         <template v-else>
+                            <div class="relative">
+                                <box-icon
+                                    class="absolute right-0"
+                                    name="pencil"
+                                    type="solid"
+                                    animation="tada-hover"
+                                    color="green"
+                                ></box-icon>
+                            </div>
                             <img
                                 class="h-auto w-full mx-auto"
-                                :src="result.user_by_pk.avatar"
+                                :src="userInfo.user_by_pk.avatar"
                                 alt=""
                             />
                         </template>
@@ -21,11 +30,22 @@
                     ></h1>
                     <p v-if="error">Something went wrong...</p>
                     <p v-if="loading">Loading...</p>
-                    <p v-else>
-                        {{ result.user_by_pk.name }}
+                    <p v-else class="flex justify-center pt-5">
+                        <span class="inline-block">{{
+                            userInfo.user_by_pk.name
+                        }}</span>
+                        &nbsp;
+                        <box-icon
+                            name="pencil"
+                            type="solid"
+                            animation="tada-hover"
+                            color="green"
+                        ></box-icon>
                     </p>
-                    <h3 class="text-gray-600 font-lg text-semibold leading-6">
-                        Owner at Her Company Inc.
+                    <h3
+                        class="text-gray-600 font-lg text-semibold leading-6 pt-5"
+                    >
+                        Bio
                     </h3>
                     <p
                         class="text-sm text-gray-500 hover:text-gray-600 leading-6"
@@ -34,6 +54,7 @@
                         Reprehenderit, eligendi dolorum sequi illum qui unde
                         aspernatur non deserunt
                     </p>
+
                     <ul
                         class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm"
                     >
@@ -143,9 +164,7 @@
                     <div class="text-gray-700">
                         <div class="grid md:grid-cols-2 text-sm">
                             <div class="grid grid-cols-2">
-                                <div class="px-4 py-2 font-semibold">
-                                    First Name
-                                </div>
+                                <div class="px-4 py-2 font-semibold">Name</div>
                                 <div class="px-4 py-2">Jane</div>
                             </div>
                             <div class="grid grid-cols-2">
@@ -222,19 +241,18 @@
                                 Posts
                             </h2>
                             <router-link
-                                class="flex items-center justify-center bg-green w-full px-4 py-2 space-x-3 text-white text-xl font-semibold leading-tight transition-colors duration-200 transform rounded-lg lg:w-auto bg-primary hover:bg-teal-300 focus:outline-none"
+                                class="flex items-center justify-center bg-green px-4 py-2 space-x-3 text-white text-xl font-semibold leading-tight transition-colors duration-200 transform rounded-lg lg:w-auto bg-primary hover:bg-teal-300 focus:outline-none"
                                 :to="{ name: 'Cook' }"
                             >
+                                <!--  put them in side style
+                                transform: ;
+                                msfilter: ; -->
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="24"
                                     height="24"
                                     viewBox="0 0 24 24"
-                                    style="
-                                        fill: rgb(255, 255, 255);
-                                        transform: ;
-                                        msfilter: ;
-                                    "
+                                    style="fill: rgb(255, 255, 255)"
                                 >
                                     <path
                                         d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"
@@ -275,12 +293,12 @@
                                             <th
                                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
                                             >
-                                                User
+                                                Recipe name
                                             </th>
                                             <th
                                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
                                             >
-                                                Rol
+                                                Rating
                                             </th>
                                             <th
                                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
@@ -290,239 +308,91 @@
                                             <th
                                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
                                             >
-                                                Status
+                                                Edit
+                                            </th>
+                                            <th
+                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                                            >
+                                                Delete
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td
-                                                class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                            >
-                                                <div class="flex items-center">
+                                        <p v-if="recipeError">
+                                            Something went wrong...
+                                        </p>
+                                        <p v-if="recipeLoading">Loading...</p>
+                                        <template
+                                            v-else
+                                            v-for="(post, index) in userPost.recipes"
+                                            :key="index"
+                                        >
+                                            <tr>
+                                                <td
+                                                    class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
+                                                >
                                                     <div
-                                                        class="flex-shrink-0 w-10 h-10"
+                                                        class="flex items-center"
                                                     >
-                                                        <img
-                                                            class="w-full h-full rounded-full"
-                                                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                                                            alt=""
-                                                        />
-                                                    </div>
-                                                    <div class="ml-3">
-                                                        <p
-                                                            class="text-gray-900 whitespace-no-wrap"
+                                                        <div
+                                                            class="flex-shrink-0 w-10 h-10"
                                                         >
-                                                            Vera Carpenter
-                                                        </p>
+                                                            <img
+                                                                class="w-full h-full rounded-full"
+                                                                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
+                                                                alt=""
+                                                            />
+                                                        </div>
+                                                        <div class="ml-3">
+                                                            <p
+                                                                class="text-gray-900 whitespace-no-wrap"
+                                                            >
+                                                                {{ post.name }}
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td
-                                                class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                            >
-                                                <p
-                                                    class="text-gray-900 whitespace-no-wrap"
+                                                </td>
+                                                <td
+                                                    class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
                                                 >
-                                                    Admin
-                                                </p>
-                                            </td>
-                                            <td
-                                                class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                            >
-                                                <p
-                                                    class="text-gray-900 whitespace-no-wrap"
-                                                >
-                                                    Jan 21, 2020
-                                                </p>
-                                            </td>
-                                            <td
-                                                class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                            >
-                                                <span
-                                                    class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
-                                                >
-                                                    <span
-                                                        aria-hidden
-                                                        class="absolute inset-0 bg-green-200 opacity-50 rounded-full"
-                                                    ></span>
-                                                    <span class="relative"
-                                                        >Activo</span
+                                                    <p
+                                                        class="text-gray-900 whitespace-no-wrap"
                                                     >
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td
-                                                class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                            >
-                                                <div class="flex items-center">
-                                                    <div
-                                                        class="flex-shrink-0 w-10 h-10"
+                                                        Admin hello
+                                                    </p>
+                                                </td>
+                                                <td
+                                                    class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
+                                                >
+                                                    <p
+                                                        class="text-gray-900 whitespace-no-wrap"
                                                     >
-                                                        <img
-                                                            class="w-full h-full rounded-full"
-                                                            src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                                                            alt=""
-                                                        />
-                                                    </div>
-                                                    <div class="ml-3">
-                                                        <p
-                                                            class="text-gray-900 whitespace-no-wrap"
-                                                        >
-                                                            Blake Bowman
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td
-                                                class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                            >
-                                                <p
-                                                    class="text-gray-900 whitespace-no-wrap"
+                                                    {{post.posted_at}}
+                                                        {{ convertTime(post.posted_at) }}
+                                                    </p>
+                                                </td>
+                                                <td
+                                                    class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
                                                 >
-                                                    Editor
-                                                </p>
-                                            </td>
-                                            <td
-                                                class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                            >
-                                                <p
-                                                    class="text-gray-900 whitespace-no-wrap"
+                                                    <box-icon
+                                                        name="pencil"
+                                                        type="solid"
+                                                        animation="tada-hover"
+                                                        color="green"
+                                                    ></box-icon>
+                                                </td>
+                                                <td
+                                                    class="py-5 border-b border-gray-200 bg-white text-sm"
                                                 >
-                                                    Jan 01, 2020
-                                                </p>
-                                            </td>
-                                            <td
-                                                class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                            >
-                                                <span
-                                                    class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
-                                                >
-                                                    <span
-                                                        aria-hidden
-                                                        class="absolute inset-0 bg-green-200 opacity-50 rounded-full"
-                                                    ></span>
-                                                    <span class="relative"
-                                                        >Activo</span
-                                                    >
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td
-                                                class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                            >
-                                                <div class="flex items-center">
-                                                    <div
-                                                        class="flex-shrink-0 w-10 h-10"
-                                                    >
-                                                        <img
-                                                            class="w-full h-full rounded-full"
-                                                            src="https://images.unsplash.com/photo-1540845511934-7721dd7adec3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                                                            alt=""
-                                                        />
-                                                    </div>
-                                                    <div class="ml-3">
-                                                        <p
-                                                            class="text-gray-900 whitespace-no-wrap"
-                                                        >
-                                                            Dana Moore
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td
-                                                class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                            >
-                                                <p
-                                                    class="text-gray-900 whitespace-no-wrap"
-                                                >
-                                                    Editor
-                                                </p>
-                                            </td>
-                                            <td
-                                                class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                            >
-                                                <p
-                                                    class="text-gray-900 whitespace-no-wrap"
-                                                >
-                                                    Jan 10, 2020
-                                                </p>
-                                            </td>
-                                            <td
-                                                class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
-                                            >
-                                                <span
-                                                    class="relative inline-block px-3 py-1 font-semibold text-orange-900 leading-tight"
-                                                >
-                                                    <span
-                                                        aria-hidden
-                                                        class="absolute inset-0 bg-orange-200 opacity-50 rounded-full"
-                                                    ></span>
-                                                    <span class="relative"
-                                                        >Suspended</span
-                                                    >
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td
-                                                class="px-5 py-5 bg-white text-sm"
-                                            >
-                                                <div class="flex items-center">
-                                                    <div
-                                                        class="flex-shrink-0 w-10 h-10"
-                                                    >
-                                                        <img
-                                                            class="w-full h-full rounded-full"
-                                                            src="https://images.unsplash.com/photo-1522609925277-66fea332c575?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&h=160&w=160&q=80"
-                                                            alt=""
-                                                        />
-                                                    </div>
-                                                    <div class="ml-3">
-                                                        <p
-                                                            class="text-gray-900 whitespace-no-wrap"
-                                                        >
-                                                            Alonzo Cox
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td
-                                                class="px-5 py-5 bg-white text-sm"
-                                            >
-                                                <p
-                                                    class="text-gray-900 whitespace-no-wrap"
-                                                >
-                                                    Admin
-                                                </p>
-                                            </td>
-                                            <td
-                                                class="px-5 py-5 bg-white text-sm"
-                                            >
-                                                <p
-                                                    class="text-gray-900 whitespace-no-wrap"
-                                                >
-                                                    Jan 18, 2020
-                                                </p>
-                                            </td>
-                                            <td
-                                                class="px-5 py-5 bg-white text-sm"
-                                            >
-                                                <span
-                                                    class="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight"
-                                                >
-                                                    <span
-                                                        aria-hidden
-                                                        class="absolute inset-0 bg-red-200 opacity-50 rounded-full"
-                                                    ></span>
-                                                    <span class="relative"
-                                                        >Inactive</span
-                                                    >
-                                                </span>
-                                            </td>
-                                        </tr>
+                                                    <box-icon
+                                                        type="solid"
+                                                        name="trash-alt"
+                                                        animation="tada-hover"
+                                                        color="green"
+                                                    ></box-icon>
+                                                </td>
+                                            </tr>
+                                        </template>
                                     </tbody>
                                 </table>
                                 <div
@@ -560,15 +430,15 @@
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 import { useQuery, useResult } from '@vue/apollo-composable'
-import { user_account } from '../querys/query'
+import { user_account, user_post } from '../graphql/query'
 
 // ========= ALTERNATIVE WAY TO CHANGE QUERY VARIABLE ==========
 // const variables = ref({ id: '' })
 // const id = userData.value.sub
 // const selectUser = (id) => {
 //  variables.value = {
-        // id,
-    // }
+// id,
+// }
 // }
 // selectUser(id)
 
@@ -576,8 +446,29 @@ const store = useStore()
 
 const userData = computed(() => store.getters['main/user'])
 
+const {
+    result: userInfo,
+    loading,
+    error,
+} = useQuery(user_account.query, {
+    id: userData.value.sub,
+})
 
-const { result, loading, error } = useQuery(user_account.query, {id: userData.value.sub})
+const {
+    result: userPost,
+    loading: recipeLoading,
+    error: recipeError,
+} = useQuery(user_post.query, { id: userData.value.sub })
+
+const convertTime = (apiTime) => {
+  var chunked = apiTime.split(":");
+
+  var date = new Date();
+  date.setHours(chunked[0]);
+  date.setMinutes(chunked[1]);
+
+  return moment(date).format('MMMM DD, YYYY H:mm');
+}
 
 const closeMenu = () => {
     const toggleMenu = document.querySelector('.menu')
