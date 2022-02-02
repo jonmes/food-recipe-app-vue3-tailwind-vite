@@ -30,6 +30,7 @@ export const user_post = {
                 id
                 name
                 posted_at
+                image
             }
         }
     `,

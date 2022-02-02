@@ -335,11 +335,11 @@
                                                         class="flex items-center"
                                                     >
                                                         <div
-                                                            class="flex-shrink-0 w-10 h-10"
+                                                            class="flex-shrink-0 w-20 h-20"
                                                         >
                                                             <img
-                                                                class="w-full h-full rounded-full"
-                                                                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
+                                                                class="w-full h-full rounded-md"
+                                                                :src= post.image[0]
                                                                 alt=""
                                                             />
                                                         </div>
@@ -367,7 +367,6 @@
                                                     <p
                                                         class="text-gray-900 whitespace-no-wrap"
                                                     >
-                                                    {{post.posted_at}}
                                                         {{ convertTime(post.posted_at) }}
                                                     </p>
                                                 </td>
@@ -377,12 +376,12 @@
                                                     <box-icon
                                                         name="pencil"
                                                         type="solid"
-                                                        animation="tada-hover"
+                                                        animation="fade-right-hover"
                                                         color="green"
                                                     ></box-icon>
                                                 </td>
                                                 <td
-                                                    class="py-5 border-b border-gray-200 bg-white text-sm"
+                                                    class="px-7 py-5 border-b border-gray-200 bg-white text-sm"
                                                 >
                                                     <box-icon
                                                         type="solid"
@@ -461,13 +460,10 @@ const {
 } = useQuery(user_post.query, { id: userData.value.sub })
 
 const convertTime = (apiTime) => {
-  var chunked = apiTime.split(":");
+    const date = new Date(apiTime)
+    
 
-  var date = new Date();
-  date.setHours(chunked[0]);
-  date.setMinutes(chunked[1]);
-
-  return moment(date).format('MMMM DD, YYYY H:mm');
+  return date.toDateString();
 }
 
 const closeMenu = () => {
