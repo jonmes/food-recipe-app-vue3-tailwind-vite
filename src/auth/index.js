@@ -72,10 +72,14 @@ export const authGuard = async function (to, from, next) {
 
 //   ===================== APOLLO ==============================
 
-import { ApolloClient, InMemoryCache } from "@apollo/client/core";
+import { ApolloClient, InMemoryCache, createHttpLink, split } from "@apollo/client/core";
 import { setContext } from "@apollo/client/link/context";
 import { createApolloProvider } from "@vue/apollo-option";
-import { createHttpLink } from "@apollo/client/core";
+import { WebSocketLink } from "@apollo/client/link/ws";
+// import { WebSocketLink } from 'apollo-link-ws';
+import { getMainDefinition } from "@apollo/client/utilities";
+
+
 
 let apolloClient;
 
@@ -83,6 +87,33 @@ if (store.getters["main/isLoading"] === false) {
   const httpLink = createHttpLink({
     uri: "http://localhost:8080/v1/graphql",
   });
+
+  const getHeaders = async() => {
+    const headers = {};
+    if(await auth0Client.isAuthenticated()){
+      const token = await auth0Client.getTokenSilently();
+      if(token){
+        headers.Authorization = `Bearer ${token}`
+      }
+      return headers
+    }
+  }
+
+  const wsLink = new WebSocketLink({
+    uri: `ws://localhost:8080/v1/graphql`,
+    options: {
+      reconnect: true,
+      // timeout: 30000,
+      connectionParams: async () => {
+        // console.log(await getHeaders())
+        return {
+          headers: await getHeaders()
+        }
+      }
+    }
+  })
+
+
 
   const authLink = setContext(async () => {
     if (await auth0Client.isAuthenticated()) {
@@ -96,11 +127,25 @@ if (store.getters["main/isLoading"] === false) {
         return {}
     }
   });
+  
+
+  const link = split(
+    ({query}) => {
+      const definition = getMainDefinition(query)
+      return (
+        definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
+      )
+    },
+    wsLink,
+    authLink.concat(httpLink)
+  )
 
   const cache = new InMemoryCache();
   apolloClient = new ApolloClient({
       cache,
-      link: authLink.concat(httpLink),
+      // link: authLink.concat(httpLink),
+      // link: wsLink
+      link
   })
 }
 
