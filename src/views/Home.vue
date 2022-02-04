@@ -13,7 +13,7 @@
       <span class="hidden xl:inline-block">XL</span>
     </div> -->
 
-        <div
+        <section
             class="flex flex-wrap-reverse gap-y-24 justify-between py-12 px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24"
         >
             <div class="relative z-10 md:w-1/2 w-full">
@@ -135,7 +135,187 @@
                     <span>Minab</span>
                 </div>
             </div>
-        </div>
+        </section>
+        <section
+            class="flex flex-wrap gap-y-24 justify-between py-12 px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24"
+        >
+        Browse By
+            <MarqueeText
+                :duration="30"
+                :repeat="4"
+                :paused="isPaused"
+                class="py-20"
+            >
+                <span class="badge badge-success ml-2">
+                    <img
+                        class="h-40 w-40 rounded-full mx-4 inline-block"
+                        src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8OXx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60"
+                        alt=""
+                /></span>
+
+                <span class="badge badge-danger ml-2">
+                    <img
+                        class="h-40 w-40 rounded-full mx-4 inline-block"
+                        src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8NHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60"
+                        alt=""
+                /></span>
+
+                <span class="badge badge-success ml-2">
+                    <img
+                        class="h-40 w-40 rounded-full mx-4 inline-block"
+                        src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
+                        alt=""
+                /></span>
+
+                <span class="badge badge-danger ml-2">
+                    <img
+                        class="h-40 w-40 rounded-full mx-4 inline-block"
+                        src="https://images.unsplash.com/photo-1529042410759-befb1204b468?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTh8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
+                        alt=""
+                /></span>
+
+                <span class="badge badge-success ml-2">
+                    <img
+                        class="h-40 w-40 rounded-full mx-4 inline-block"
+                        src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTl8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
+                        alt=""
+                /></span>
+
+                <span class="badge badge-info ml-2">
+                    <img
+                        class="h-40 w-40 rounded-full mx-4 inline-block"
+                        src="https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MjR8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
+                        alt=""
+                /></span>
+
+                <span class="badge badge-success ml-2">
+                    <img
+                        class="h-40 w-40 rounded-full mx-4 inline-block"
+                        src="https://images.unsplash.com/photo-1432139509613-5c4255815697?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzB8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
+                        alt=""
+                /></span>
+            </MarqueeText>
+        </section>
+        <section
+            class="flex flex-wrap gap-y-24 justify-between py-12 px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24"
+        >
+            <div class="w-full mb-5 my-2 flex sm:flex-row flex-col">
+                <div class="flex flex-row mb-1 sm:mb-0">
+                    <div class="relative">
+                        <select
+                            class="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        >
+                            <option>Under 15</option>
+                            <option>15 - 30 min</option>
+                            <option>30 - 45 min</option>
+                            <option>Over 1 hour</option>
+                        </select>
+                        <div
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+                        >
+                            <svg
+                                class="fill-current h-4 w-4"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                            >
+                                <path
+                                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                                />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <select
+                            class="appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
+                        >
+                            <option>All</option>
+                            <option>Breakfast</option>
+                            <option>Lunch</option>
+                            <option>Dinner</option>
+                            <option>Fast food</option>
+                            <option>Sweet</option>
+                        </select>
+                        <div
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+                        >
+                            <svg
+                                class="fill-current h-4 w-4"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                            >
+                                <path
+                                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                                />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full block relative">
+                    <span
+                        class="h-full absolute inset-y-0 left-0 flex items-center pl-2"
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            class="h-4 w-4 fill-current text-gray-500"
+                        >
+                            <path
+                                d="M10 4a6 6 0 100 12 6 6 0 000-12zm-8 6a8 8 0 1114.32 4.906l5.387 5.387a1 1 0 01-1.414 1.414l-5.387-5.387A8 8 0 012 10z"
+                            ></path>
+                        </svg>
+                    </span>
+                    <input
+                        placeholder="Search"
+                        class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
+                    />
+                </div>
+            </div>
+        </section>
+        <section
+            class="flex flex-wrap gap-y-24 justify-between py-12 px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24"
+        >
+            <div
+                class="max-w-xs mb-5 rounded-md overflow-hidden hover:scale-105 transition duration-500 cursor-pointer"
+                v-for="rec in recipe"
+                :key="rec.id"
+            >
+                <div>
+                    <img :src="rec.image" alt="pic" />
+                </div>
+                <div class="py-4 px-4 bg-white">
+                    <h3 class="text-2xl font-great font-black text-gray-600">
+                        {{ rec.title }}<br />by &quot;{{ rec.user_id }}
+                    </h3>
+                    <p class="mt-4 text-lg font-thin">{{ rec.description }}</p>
+                    <vue3starRatings
+                        class="stars"
+                        id="stars"
+                        v-model="rec.rating"
+                        starSize="25"
+                        starColor="#10B981"
+                        inactiveColor="#e6ebdf"
+                        controlBg="grey"
+                        showControl="false"
+                        disableClick="true"
+                        controlSize="0"
+                    />
+                    <span
+                        class="flex items-center justify-center mt-4 w-full bg-green hover:bg-green-500 py-1 rounded"
+                        ><svg
+                            width="20px"
+                            height="20px"
+                            viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M10 4.4C3.439 4.4 0 9.232 0 10c0 .766 3.439 5.6 10 5.6 6.56 0 10-4.834 10-5.6 0-.768-3.44-5.6-10-5.6zm0 9.907c-2.455 0-4.445-1.928-4.445-4.307S7.545 5.691 10 5.691s4.444 1.93 4.444 4.309-1.989 4.307-4.444 4.307zM10 10c-.407-.447.663-2.154 0-2.154-1.228 0-2.223.965-2.223 2.154s.995 2.154 2.223 2.154c1.227 0 2.223-.965 2.223-2.154 0-.547-1.877.379-2.223 0z"
+                            /></svg
+                        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        >
+                    </span>
+                </div>
+            </div>
+        </section>
     </div>
 </template>
 
@@ -145,6 +325,19 @@ import HamburgerIcon from '../assets/icons/hamburger.svg'
 import StarIcon from '../assets/icons/star.svg'
 // import FuelerIcon from '../assets/icons/fueler.svg'
 import Minab from '../assets/icons/minab.svg'
+import MarqueeText from 'vue-marquee-text-component'
+
+const recipe = ref([
+    {
+        image: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=820&q=80',
+        title: "abebe",
+        user_id: "asdfasdfe",
+        rating: 3.4,
+        description: "the best food",
+        id: "23ainawie"
+
+    },
+])
 
 const activeMenu = 'Home'
 const menus = ['Home', 'Delivery', 'Pricing', 'FAQs', 'Contact']
