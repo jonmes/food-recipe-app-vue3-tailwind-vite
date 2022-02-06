@@ -60,12 +60,14 @@ export const authGuard = async function (to, from, next) {
     store.dispatch("main/setUser", userData);
     store.dispatch("main/setAuthLoadingStatus", true);
     store.dispatch("main/setUserAuthenticated", false);
+    console.log('user authenitcated')
     return next();
   } else {
     console.log("User not authenticated >> redirect to login");
     store.dispatch("main/setUser", null);
     store.dispatch("main/setAuthLoadingStatus", false);
     store.dispatch("main/setUserAuthenticated", false);
+    console.log('user unAuthenticated')
     return next("/login");
   }
 };

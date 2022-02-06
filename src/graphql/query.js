@@ -13,6 +13,32 @@ export const user_data = {
     `,
 }
 
+export const get_recipe_by_id = {
+    query: gql`
+        query MyQuery($id: Int!) {
+            recipes_by_pk(id: $id) {
+                description
+                id
+                image
+                avg_rating
+                calories
+                category
+                ingrediant
+                name
+                posted_at
+                prep_time
+                rating_count
+                servings
+                steps
+                user_id
+                comments {
+                    comment
+                }
+            }
+        }
+    `,
+}
+
 export const user_account = {
     query: gql`
         query User($id: String!) {
@@ -36,3 +62,28 @@ export const user_post = {
     `,
 }
 
+export const get_recipes = {
+    query: gql`
+        query MyQuery {
+            recipes {
+                avg_rating
+                calories
+                category
+                description
+                id
+                image
+                ingrediant
+                name
+                posted_at
+                prep_time
+                rating_count
+                servings
+                steps
+                user_id
+                user{
+                    name
+                }
+            }
+        }
+    `,
+}

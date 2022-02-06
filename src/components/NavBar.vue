@@ -104,7 +104,7 @@
                                             >
                                         <i class="bx bx-user"></i>
                                         </box-icon>
-                                        <router-link :to="{name: 'Profile'}">My Profile</router-link>
+                                        <router-link @click="closeMenu" :to="{name: 'Profile'}">My Profile</router-link>
                                     </li>
                                     <li>
                                         <box-icon

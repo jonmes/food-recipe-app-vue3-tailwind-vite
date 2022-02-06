@@ -4,6 +4,7 @@ import About from '../views/About.vue'
 import Cook from '../views/Cook.vue'
 import Profile from '../views/Profile.vue'
 import ImageUpload from '../components/ImageUpload.vue'
+import Details from '../views/Details.vue'
 const routes = [
     {
         path: '/',
@@ -29,6 +30,11 @@ const routes = [
         path: '/image-upload',
         name: 'Image-upload',
         component: ImageUpload,
+    },
+    {
+        path: '/details',
+        name: 'Details',
+        component: Details,
     },
 ]
 
