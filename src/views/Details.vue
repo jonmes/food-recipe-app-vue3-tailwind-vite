@@ -66,14 +66,49 @@
                     controlSize="0"
                 />
                 <div class="ml-5 inline-block">
+                    <div class="mr-10 inline-block">
                     {{ recipeDetail.recipes_by_pk.avg_rating.toFixed(1) }}
                     Ratings
+
+                    </div>
+                <Popper arrow class="inline-block">
+                    <button
+                        class="bg-green sm:w-auto h-8 px-8 font-large text-white rounded-xl whitespace-nowrap hover:shadow-xl transition-shadow duration-300"
+                    >
+                        Rate
+                    </button>
+                    <template #content="{ close }">
+                        <div class=" flex justify-center w-full">
+                            <vue3starRatings
+                                v-model="ratingVal"
+                                starSize="25"
+                                starColor="#71B214"
+                                inactiveColor="#e6ebdf"
+                                controlBg="grey"
+                                disable-click="true"
+                                class="w-full"
+                            />
+
+                        </div>
+                           <div
+                                class="flex justify-center"
+                            >
+                                {{ ratingVal }} Stars
+                            </div>
+                            <button
+                                class="bg-green mr-5 sm:w-auto h-8 px-10 font-large text-white rounded-xl whitespace-nowrap hover:shadow-xl transition-shadow duration-300"
+                                @click="rate; close;"
+                            >
+                                Rate
+                            </button>
+                            <Button
+                                class="bg-green sm:w-auto h-8 px-10 font-large text-white rounded-xl whitespace-nowrap hover:shadow-xl transition-shadow duration-300"
+                                @click="close"
+                                >Close</Button
+                            >
+                    </template>
+                </Popper>
                 </div>
-                <button
-                    class="ml-10 bg-green sm:w-auto h-8 px-8 font-large text-white rounded-xl whitespace-nowrap hover:shadow-xl transition-shadow duration-300"
-                >
-                    Rate
-                </button>
             </div>
 
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
@@ -166,7 +201,7 @@
                         <div class="flex py-4 space-x-4">
                             <button
                                 type="button"
-                                class="h-14 px-6 py-2 font-semibold rounded-xl bg-green hover:bg-pink-500 text-white items-center"
+                                class="h-14 px-6 py-2 font-semibold rounded-xl bg-green hover:bg-gradient-to-r from-green-500 to-pink-500 text-white items-center"
                             >
                                 <i class="bx bxs-heart bx-md"></i>
                                 <span> add to favorite</span>
@@ -176,129 +211,128 @@
                 </div>
             </div>
         </div>
-          <div id="task-comments" class="pt-4">
+        <div id="task-comments" class="pt-4"></div>
 
-  </div>
-  
-  
         <section class="w-full rounded-b-lg mt-4">
-                <!--  ============== Ingrediants ======================== -->
+            <!--  ============== Ingrediants ======================== -->
 
-    <div class="w-full mb-10">
-      <h1 class="text-4xl font-black font-great mb-5">Ingrediants</h1>
-      <h2
-        class="text-2xl ml-10 pb-3"
-        v-for="ing in recipeDetail.recipes_by_pk.ingrediant"
-        :key="ing"
-      >
-        {{ ing }}
-      </h2>
-    </div>
-    <!-- ================== Steps ============== -->
-    <div class="w-full mb-10">
-      <h1 class="text-4xl font-black font-great mb-5">Steps</h1>
-      <h2
-        class="text-2xl text-justify ml-10 pb-5"
-        v-for="(step, index) in recipeDetail.recipes_by_pk.steps"
-        :key="index"
-      >
-        <span class="font-black font-great">Step {{ index + 1 }}: </span><br />
-        {{ step }}
-      </h2>
-    </div>
-    <!--     comment-->
-          <form action="/" accept-charset="UTF-8" method="post">
-        <input type="hidden" />
-        <textarea
-          class="w-full shadow-inner p-4 border-0 mb-4 rounded-lg focus:shadow-outline text-2xl"
-          v-model="newComment"
-          placeholder="Comment..."
-          cols="6"
-          rows="4"
-          id="comment_content"
-          spellcheck="false"
-          required
-        ></textarea>
-        <button
-          class="font-bold mb-10 py-2 px-4 w-full bg-green text-lg text-white shadow-md rounded-lg"
-          @click="createComment()"
-          type="button"
-        >
-          Comment
-        </button>
-      </form>
-    <div
-      class="bg-white rounded-lg p-3 flex flex-col justify-center items-center md:items-start shadow-lg mb-4"
-      v-for="comment in recipeDetail.recipes_by_pk.comments"
-      :key="comment"
-    >
-      <div class="flex flex-row justify-center mr-2">
-        <img
-          alt="avatar"
-          width="48"
-          height="48"
-          class="rounded-full w-10 h-10 mr-4 shadow-lg mb-4"
-          src="https://cdn1.iconfinder.com/data/icons/technology-devices-2/100/Profile-512.png"
-        />
-        <h3
-          class="text-green-600 font-semibold text-lg text-center md:text-left"
-        >
-          {{ comment.user.name }}
-        </h3>
-      </div>
+            <div class="w-full mb-10">
+                <h1 class="text-4xl font-black font-great mb-5">Ingrediants</h1>
+                <h2
+                    class="text-2xl ml-10 pb-3"
+                    v-for="ing in recipeDetail.recipes_by_pk.ingrediant"
+                    :key="ing"
+                >
+                    {{ ing }}
+                </h2>
+            </div>
+            <!-- ================== Steps ============== -->
+            <div class="w-full mb-10">
+                <h1 class="text-4xl font-black font-great mb-5">Steps</h1>
+                <h2
+                    class="text-2xl text-justify ml-10 pb-5"
+                    v-for="(step, index) in recipeDetail.recipes_by_pk.steps"
+                    :key="index"
+                >
+                    <span class="font-black font-great"
+                        >Step {{ index + 1 }}: </span
+                    ><br />
+                    {{ step }}
+                </h2>
+            </div>
+            <!--     comment-->
+            <form action="/" accept-charset="UTF-8" method="post">
+                <input type="hidden" />
+                <textarea
+                    class="w-full shadow-inner p-4 border-0 mb-4 rounded-lg focus:shadow-outline text-2xl"
+                    v-model="newComment"
+                    placeholder="Comment..."
+                    cols="6"
+                    rows="4"
+                    id="comment_content"
+                    spellcheck="false"
+                    required
+                ></textarea>
+                <button
+                    class="font-bold mb-10 py-2 px-4 w-full bg-green text-lg text-white shadow-md rounded-lg"
+                    @click="createComment()"
+                    type="button"
+                >
+                    Comment
+                </button>
+            </form>
+            <div
+                class="bg-white rounded-lg p-3 flex flex-col justify-center items-center md:items-start shadow-lg mb-4"
+                v-for="comment in recipeDetail.recipes_by_pk.comments"
+                :key="comment"
+            >
+                <div class="flex flex-row justify-center mr-2">
+                    <img
+                        alt="avatar"
+                        width="48"
+                        height="48"
+                        class="rounded-full w-10 h-10 mr-4 shadow-lg mb-4"
+                        src="https://cdn1.iconfinder.com/data/icons/technology-devices-2/100/Profile-512.png"
+                    />
+                    <h3
+                        class="text-green-600 font-semibold text-lg text-center md:text-left"
+                    >
+                        {{ comment.user.name }}
+                    </h3>
+                </div>
 
-      <p
-        style="width: 90%"
-        class="text-gray-600 text-lg text-center md:text-left"
-      >
-        {{ comment.comment }}
-      </p>
-    </div>
-
+                <p
+                    style="width: 90%"
+                    class="text-gray-600 text-lg text-center md:text-left"
+                >
+                    {{ comment.comment }}
+                </p>
+            </div>
         </section>
     </div>
 </template>
 
 <script setup>
-import { ref,computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useQuery } from '@vue/apollo-composable'
 import { get_recipe_by_id } from '../graphql/query'
 import vue3starRatings from 'vue3-star-ratings'
-import { useRouter, useRoute } from "vue-router";
+import { useRouter, useRoute } from 'vue-router'
 import { useMutation } from '@vue/apollo-composable'
 import { create_comment } from '../graphql/mutation'
+import Popper from 'vue3-popper'
 
 const store = useStore()
 const userData = computed(() => store.getters['main/user'])
 const route = useRoute()
-const router = useRouter();
+const router = useRouter()
 const id = route.params.id // read parameter id (it is reactive)
 const image = ref('')
 const newComment = ref('')
-
-
-
+const ratingVal = ref(0)
 const {
     result: recipeDetail,
     loading: recipeLoading,
     error: recipeError,
 } = useQuery(get_recipe_by_id.query, { id })
 
-const { mutate: createComment, loading, error, onDone } = useMutation(create_comment.mutation, () => (
-    {
-        variables: {
-            comment: newComment.value,
-            recipe_id: id,
-            user_id: userData.value.sub
-        }
-    }
-))
+const {
+    mutate: createComment,
+    loading,
+    error,
+    onDone,
+} = useMutation(create_comment.mutation, () => ({
+    variables: {
+        comment: newComment.value,
+        recipe_id: id,
+        user_id: userData.value.sub,
+    },
+}))
 
-    onDone(() => {
-      router.push({ name: "Profile" });
-      
-    });
+onDone(() => {
+    router.push({ name: 'Profile' })
+})
 
 const convertTime = (apiTime) => {
     const date = new Date(apiTime)
@@ -315,5 +349,23 @@ const convertTime = (apiTime) => {
     padding: 0;
     margin-left: 40px;
     margin-top: 20px;
+}
+
+:deep(.popper) {
+    background: #e92791;
+    padding: 20px;
+    border-radius: 20px;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+:deep(.popper #arrow::before) {
+    background: #e92791;
+}
+
+:deep(.popper:hover),
+:deep(.popper:hover > #arrow::before) {
+    background: #e92791;
 }
 </style>

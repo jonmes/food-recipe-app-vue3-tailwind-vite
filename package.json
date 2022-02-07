@@ -23,6 +23,7 @@
     "vue-marquee-text-component": "^2.0.1",
     "vue-router": "4",
     "vue3-carousel": "^0.1.36",
+    "vue3-popper": "^1.4.1",
     "vue3-star-ratings": "^1.1.0",
     "vuex": "^4.0.2"
   },
