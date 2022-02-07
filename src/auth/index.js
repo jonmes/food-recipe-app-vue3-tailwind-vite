@@ -155,5 +155,5 @@ export const apolloclient = apolloClient;
 
 export const apolloProvider = createApolloProvider({
     defaultClient: apolloClient,
-    //abebe: signIn().userData, //==> this code perform signin operation in page reload
+    abebe: signIn().userData, //==> this code perform signin operation in page reload
 })

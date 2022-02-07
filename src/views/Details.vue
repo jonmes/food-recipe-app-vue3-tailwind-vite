@@ -6,7 +6,7 @@
             {{ recipeDetail.recipes_by_pk.name }}
         </h1>
 
-        <div class="py-6">
+        <div class="py-6 w-full">
             <!-- Breadcrumbs -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center space-x-2 text-gray-400 text-sm">
@@ -89,18 +89,16 @@
                                 </div>
                             </div>
                             <div
+                                class="h-64 md:h-80 rounded-lg bg-gray-100 mb-4"
                                 v-else
-                                class="max-w-xs mb-5 rounded-md overflow-hidden hover:scale-105 transition duration-500 cursor-pointer"
                             >
-                                <div class="w-full h-80">
-                                    <div>
-                                        <img
-                                            :src="
-                                                recipeDetail.recipes_by_pk
-                                                    .image[0]
-                                            "
-                                        />
-                                    </div>
+                                <div class="w-full h-80 flex justify-center">
+                                    <img
+                                        class="h-80"
+                                        :src="
+                                            recipeDetail.recipes_by_pk.image[0]
+                                        "
+                                    />
                                 </div>
                             </div>
 
@@ -132,110 +130,181 @@
                         <h2
                             class="mb-2 leading-tight tracking-tight font-bold text-gray-800 text-2xl md:text-3xl"
                         >
-                            Lorem ipsum dolor, sit amet consectetur, adipisicing
-                            elit.
+                            {{ recipeDetail.recipes_by_pk.description }}
                         </h2>
-                        <p class="text-gray-500 text-sm">
+                        <p class="text-gray-500 text-sm mt-5">
                             By
-                            <a href="#" class="text-indigo-600 hover:underline"
-                                >{{recipeDetail.recipes_by_pk.user.name}}</a
+                            <a
+                                href="#"
+                                class="text-indigo-600 hover:underline"
+                                >{{ recipeDetail.recipes_by_pk.user.name }}</a
                             >
                         </p>
-
-                        <div class="flex items-center space-x-4 my-4">
-                            <div>
-                                <div
-                                    class="rounded-lg bg-gray-100 flex py-2 px-3"
-                                >
-                                    <span class="text-indigo-400 mr-1 mt-1"
-                                        >$</span
-                                    >
-                                    <span
-                                        class="font-bold text-indigo-600 text-3xl"
-                                        >25</span
-                                    >
-                                </div>
-                            </div>
-                            <div class="flex-1">
-                                <p class="text-green-500 text-xl font-semibold">
-                                    Save 12%
-                                </p>
-                                <p class="text-gray-400 text-sm">
-                                    Inclusive of all Taxes.
-                                </p>
-                            </div>
-                        </div>
-
-                        <p class="text-gray-500">
-                            Lorem ipsum, dolor sit, amet consectetur adipisicing
-                            elit. Vitae exercitationem porro saepe ea harum
-                            corrupti vero id laudantium enim, libero blanditiis
-                            expedita cupiditate a est.
-                        </p>
+                        <h4 class="text-gray-500 mt-5">
+                            Category: {{ recipeDetail.recipes_by_pk.category }}
+                        </h4>
+                        <h4 class="text-gray-500 mt-5">
+                            Preparation Time:
+                            {{ recipeDetail.recipes_by_pk.prep_time }} Min
+                        </h4>
+                        <h4 class="text-gray-500 mt-5">
+                            Calories:
+                            {{ recipeDetail.recipes_by_pk.calories }} KCal
+                        </h4>
+                        <h4 class="text-gray-500 mt-5">
+                            Servings: {{ recipeDetail.recipes_by_pk.servings }}
+                        </h4>
+                        <h4 class="text-gray-500 mt-5">
+                            Posted at:
+                            {{
+                                convertTime(
+                                    recipeDetail.recipes_by_pk.posted_at
+                                )
+                            }}
+                        </h4>
 
                         <div class="flex py-4 space-x-4">
-                            <div class="relative">
-                                <div
-                                    class="text-center left-0 pt-2 right-0 absolute block text-xs uppercase text-gray-400 tracking-wide font-semibold"
-                                >
-                                    Qty
-                                </div>
-                                <select
-                                    class="cursor-pointer appearance-none rounded-xl border border-gray-200 pl-4 pr-8 h-14 flex items-end pb-1"
-                                >
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-
-                                <svg
-                                    class="w-5 h-5 text-gray-400 absolute right-0 bottom-0 mb-2 mr-2"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M8 9l4-4 4 4m0 6l-4 4-4-4"
-                                    />
-                                </svg>
-                            </div>
-
                             <button
                                 type="button"
-                                class="h-14 px-6 py-2 font-semibold rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white"
+                                class="h-14 px-6 py-2 font-semibold rounded-xl bg-green hover:bg-pink-500 text-white items-center"
                             >
-                                Add to Cart
+                                <i class="bx bxs-heart bx-md"></i>
+                                <span> add to favorite</span>
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+          <div id="task-comments" class="pt-4">
+
+  </div>
+  
+  
+        <section class="w-full rounded-b-lg mt-4">
+                <!--  ============== Ingrediants ======================== -->
+
+    <div class="w-full mb-10">
+      <h1 class="text-4xl font-black font-great mb-5">Ingrediants</h1>
+      <h2
+        class="text-2xl ml-10 pb-3"
+        v-for="ing in recipeDetail.recipes_by_pk.ingrediant"
+        :key="ing"
+      >
+        {{ ing }}
+      </h2>
+    </div>
+    <!-- ================== Steps ============== -->
+    <div class="w-full mb-10">
+      <h1 class="text-4xl font-black font-great mb-5">Steps</h1>
+      <h2
+        class="text-2xl text-justify ml-10 pb-5"
+        v-for="(step, index) in recipeDetail.recipes_by_pk.steps"
+        :key="index"
+      >
+        <span class="font-black font-great">Step {{ index + 1 }}: </span><br />
+        {{ step }}
+      </h2>
+    </div>
+    <!--     comment-->
+          <form action="/" accept-charset="UTF-8" method="post">
+        <input type="hidden" />
+        <textarea
+          class="w-full shadow-inner p-4 border-0 mb-4 rounded-lg focus:shadow-outline text-2xl"
+          v-model="newComment"
+          placeholder="Comment..."
+          cols="6"
+          rows="4"
+          id="comment_content"
+          spellcheck="false"
+          required
+        ></textarea>
+        <button
+          class="font-bold mb-10 py-2 px-4 w-full bg-green text-lg text-white shadow-md rounded-lg"
+          @click="createComment()"
+          type="button"
+        >
+          Comment
+        </button>
+      </form>
+    <div
+      class="bg-white rounded-lg p-3 flex flex-col justify-center items-center md:items-start shadow-lg mb-4"
+      v-for="comment in recipeDetail.recipes_by_pk.comments"
+      :key="comment"
+    >
+      <div class="flex flex-row justify-center mr-2">
+        <img
+          alt="avatar"
+          width="48"
+          height="48"
+          class="rounded-full w-10 h-10 mr-4 shadow-lg mb-4"
+          src="https://cdn1.iconfinder.com/data/icons/technology-devices-2/100/Profile-512.png"
+        />
+        <h3
+          class="text-green-600 font-semibold text-lg text-center md:text-left"
+        >
+          {{ comment.user.name }}
+        </h3>
+      </div>
+
+      <p
+        style="width: 90%"
+        class="text-gray-600 text-lg text-center md:text-left"
+      >
+        {{ comment.comment }}
+      </p>
+    </div>
+
+        </section>
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref,computed } from 'vue'
+import { useStore } from 'vuex'
 import { useQuery } from '@vue/apollo-composable'
 import { get_recipe_by_id } from '../graphql/query'
 import vue3starRatings from 'vue3-star-ratings'
-import { useRoute } from 'vue-router'
+import { useRouter, useRoute } from "vue-router";
+import { useMutation } from '@vue/apollo-composable'
+import { create_comment } from '../graphql/mutation'
 
+const store = useStore()
+const userData = computed(() => store.getters['main/user'])
 const route = useRoute()
+const router = useRouter();
 const id = route.params.id // read parameter id (it is reactive)
 const image = ref('')
+const newComment = ref('')
+
+
 
 const {
     result: recipeDetail,
     loading: recipeLoading,
     error: recipeError,
 } = useQuery(get_recipe_by_id.query, { id })
+
+const { mutate: createComment, loading, error, onDone } = useMutation(create_comment.mutation, () => (
+    {
+        variables: {
+            comment: newComment.value,
+            recipe_id: id,
+            user_id: userData.value.sub
+        }
+    }
+))
+
+    onDone(() => {
+      router.push({ name: "Profile" });
+      
+    });
+
+const convertTime = (apiTime) => {
+    const date = new Date(apiTime)
+
+    return date.toDateString()
+}
 </script>
 
 <style scoped>

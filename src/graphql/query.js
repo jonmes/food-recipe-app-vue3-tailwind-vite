@@ -33,6 +33,12 @@ export const get_recipe_by_id = {
                 user_id
                 comments {
                     comment
+                    user{
+                        name
+                    }
+                }
+                user {
+                    name
                 }
             }
         }
@@ -80,7 +86,40 @@ export const get_recipes = {
                 servings
                 steps
                 user_id
-                user{
+                user {
+                    name
+                    avatar
+                }
+            }
+        }
+    `,
+}
+
+export const comments = {
+    query: gql`
+        query MyQuery($id: Int!) {
+            recipes_by_pk(id: $id) {
+                description
+                id
+                image
+                avg_rating
+                calories
+                category
+                ingrediant
+                name
+                posted_at
+                prep_time
+                rating_count
+                servings
+                steps
+                user_id
+                comments {
+                    comment
+                    user {
+                        name
+                    }
+                }
+                user {
                     name
                 }
             }

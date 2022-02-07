@@ -43,15 +43,28 @@ export const post_recipe = {
     `,
 }
 
-
-
-
 export const update_account = {
     query: gql`
         mutation ($id: String!) {
             update_user_by_pk(pk_columns: { id: $id }, _set: { name: "joni" }) {
                 id
                 name
+            }
+        }
+    `,
+}
+
+export const create_comment = {
+    mutation: gql`
+        mutation ($comment: String, $recipe_id: Int, $user_id: String) {
+            insert_comments_one(
+                object: {
+                    comment: $comment
+                    recipe_id: $recipe_id
+                    user_id: $user_id
+                }
+            ) {
+                comment
             }
         }
     `,

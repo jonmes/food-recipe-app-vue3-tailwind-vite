@@ -3,7 +3,6 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import { DefaultApolloClient } from '@vue/apollo-composable'
-
 import * as apolloClient from "./auth"
 import './assets/main.css'
 
@@ -13,7 +12,6 @@ const app = createApp({
     },
     render: () => h(App),
 })
-
 app.use(router)
 app.use(store)
 // app.use(apolloProvider.apolloProvider)

@@ -307,9 +307,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref,computed } from 'vue'
 import { useStore } from 'vuex'
-import { computed } from 'vue'
 import { useMutation } from '@vue/apollo-composable'
 import { post_recipe } from '../graphql/mutation'
 import { useRouter, useRoute } from "vue-router";
