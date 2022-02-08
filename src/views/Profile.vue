@@ -210,7 +210,7 @@
                                                     <p
                                                         class="text-gray-900 whitespace-no-wrap"
                                                     >
-                                                        Admin hello
+                                                        {{post.avg_rating}}
                                                     </p>
                                                 </td>
                                                 <td

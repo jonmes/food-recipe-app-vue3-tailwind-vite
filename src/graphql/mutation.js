@@ -69,3 +69,21 @@ export const create_comment = {
         }
     `,
 }
+
+export const rate_recipe = {
+    mutation: gql`
+        mutation ($recipe_id: Int, $user_id: String, $rating_val: Float) {
+            insert_ratings_one(
+                object: {
+                    recipe_id: $recipe_id
+                    user_id: $user_id
+                    rating_val: $rating_val
+                }
+            ) {
+                user_id
+                rating_val
+                recipe_id
+            }
+        }
+    `,
+}

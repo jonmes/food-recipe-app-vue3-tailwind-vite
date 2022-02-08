@@ -67,7 +67,7 @@
                 />
                 <div class="ml-5 inline-block">
                     <div class="mr-10 inline-block">
-                    {{ recipeDetail.recipes_by_pk.avg_rating.toFixed(1) }}
+                    {{ recipeDetail.recipes_by_pk.rating_count.toFixed(0) }}
                     Ratings
 
                     </div>
@@ -97,7 +97,7 @@
                             </div>
                             <button
                                 class="bg-green mr-5 sm:w-auto h-8 px-10 font-large text-white rounded-xl whitespace-nowrap hover:shadow-xl transition-shadow duration-300"
-                                @click="rate; close;"
+                                @click="rateRecipe(); close;"
                             >
                                 Rate
                             </button>
@@ -300,7 +300,7 @@ import { get_recipe_by_id } from '../graphql/query'
 import vue3starRatings from 'vue3-star-ratings'
 import { useRouter, useRoute } from 'vue-router'
 import { useMutation } from '@vue/apollo-composable'
-import { create_comment } from '../graphql/mutation'
+import { create_comment, rate_recipe } from '../graphql/mutation'
 import Popper from 'vue3-popper'
 
 const store = useStore()
@@ -330,8 +330,23 @@ const {
     },
 }))
 
+const { mutate: rateRecipe,
+        loading: ratingLoading,
+        error: ratingError,
+        onDone: ratingOnDone
+        }= useMutation(rate_recipe.mutation, () => ({
+            variables: {
+                rating_val: ratingVal.value,
+                recipe_id: id,
+                user_id: userData.value.sub
+            }
+        }))
+
 onDone(() => {
     router.push({ name: 'Profile' })
+})
+ratingOnDone(() => {
+    router.push({ name: 'Details'})
 })
 
 const convertTime = (apiTime) => {
@@ -352,7 +367,7 @@ const convertTime = (apiTime) => {
 }
 
 :deep(.popper) {
-    background: #e92791;
+    background: #797979;
     padding: 20px;
     border-radius: 20px;
     color: #fff;
@@ -361,11 +376,11 @@ const convertTime = (apiTime) => {
 }
 
 :deep(.popper #arrow::before) {
-    background: #e92791;
+    background: #797979;
 }
 
 :deep(.popper:hover),
 :deep(.popper:hover > #arrow::before) {
-    background: #e92791;
+    background: #627e5f;
 }
 </style>

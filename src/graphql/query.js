@@ -63,6 +63,7 @@ export const user_post = {
                 name
                 posted_at
                 image
+                avg_rating
             }
         }
     `,
