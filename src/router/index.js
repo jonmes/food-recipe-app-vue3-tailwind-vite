@@ -5,6 +5,7 @@ import Cook from '../views/Cook.vue'
 import Profile from '../views/Profile.vue'
 import ImageUpload from '../components/ImageUpload.vue'
 import Details from '../views/Details.vue'
+import Browse from '../views/Browse.vue'
 const routes = [
     {
         path: '/',
@@ -36,6 +37,11 @@ const routes = [
         name: 'Details',
         component: Details,
     },
+    {
+        path: '/browse',
+        name: 'Browse',
+        component: Browse
+    }
 ]
 
 const router = createRouter({

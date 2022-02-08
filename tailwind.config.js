@@ -5,7 +5,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily : {
-        sans : ['DM Sans', 'sans-serif']
+        sans : ['DM Sans', 'sans-serif'],
+        great: "'Fredericka the Great', cursive",
+        girl: "'Crafty Girls', cursive",
       },
       colors : {
         green : {

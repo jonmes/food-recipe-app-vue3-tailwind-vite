@@ -28,7 +28,9 @@
                         class="text-lg md:text-base lg:text-lg font-medium group"
                         :class="{ 'text-green': activeMenu === 'home' }"
                     >
-                        <router-link :to="{ name: 'home' }" @click="closeMenu">Home</router-link>
+                        <router-link :to="{ name: 'home' }" @click="closeMenu"
+                            >Home</router-link
+                        >
                         <div
                             class="h-0.5 bg-green scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out"
                         />
@@ -37,13 +39,36 @@
                         class="text-lg md:text-base lg:text-lg font-medium group"
                         :class="{ 'text-green': activeMenu === 'about' }"
                     >
-                        <router-link :to="{ name: 'About' }" @click="closeMenu">
+                        <router-link :to="{ name: 'Browse' }" @click="closeMenu">
+                            Browse
+                        </router-link>
+                        <div
+                            class="h-0.5 bg-green scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out"
+                        />
+                    </li>
+                    <li
+                        class="text-lg md:text-base lg:text-lg font-medium group"
+                        :class="{ 'text-green': activeMenu === 'about' }"
+                    >
+                        <router-link :to="{ name: 'Cook' }" @click="closeMenu">
+                            Cook
+                        </router-link>
+                        <div
+                            class="h-0.5 bg-green scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out"
+                        />
+                    </li>
+                    <li
+                        class="text-lg md:text-base lg:text-lg font-medium group"
+                        :class="{ 'text-green': activeMenu === 'about' }"
+                    >
+                        <router-link :to="{ name: 'About' }" @click="login">
                             About
                         </router-link>
                         <div
                             class="h-0.5 bg-green scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out"
                         />
                     </li>
+
                     <!-- <router-link
             class="flex justify-center items-center h-13 px-7 font-medium text-white bg-green rounded-xl hover:shadow-primary transition-shadow duration-300 whitespace-nowrap"
             :to="{ name: 'Home'}"
@@ -93,18 +118,23 @@
                             </div>
                             <div class="menu">
                                 <h3>
-                                    {{nickname}}<br /><span
+                                    {{ nickname }}<br /><span
                                         >Website Designer</span
                                     >
                                 </h3>
                                 <ul>
-                                    <li><box-icon
+                                    <li>
+                                        <box-icon
                                             name="user"
                                             animation="burst-hover"
-                                            >
-                                        <i class="bx bx-user"></i>
+                                        >
+                                            <i class="bx bx-user"></i>
                                         </box-icon>
-                                        <router-link @click="closeMenu" :to="{name: 'Profile'}">My Profile</router-link>
+                                        <router-link
+                                            @click="closeMenu"
+                                            :to="{ name: 'Profile' }"
+                                            >My Profile</router-link
+                                        >
                                     </li>
                                     <li>
                                         <box-icon
@@ -123,11 +153,12 @@
                                         ></box-icon>
                                         <a href="#">Notification</a>
                                     </li>
-                                    <li><box-icon
+                                    <li>
+                                        <box-icon
                                             name="log-out-circle"
                                             animation="fade-left-hover"
-                                            >
-                                        <i class="bx bx-log-out-circle"></i>
+                                        >
+                                            <i class="bx bx-log-out-circle"></i>
                                         </box-icon>
                                         <a href="#" @click="logout">Logout</a>
                                     </li>
@@ -154,7 +185,7 @@ import { signIn, signOut } from '../auth'
 import { useRouter } from 'vue-router'
 
 import HamburgerIcon from '../assets/icons/hamburger.svg'
-const menus = ['Home', 'Delivery', 'Cook', 'FAQs', 'Contact']
+const menus = ['Home', 'Browse', 'Cook', 'Contact']
 const sidebarOpen = ref(false)
 const activeMenu = 'Home'
 const store = useStore()
@@ -176,31 +207,28 @@ const logout = async () => {
     await signOut()
 }
 const menuToggle = () => {
-    const toggleMenu = document.querySelector('.menu');
-    toggleMenu.classList.toggle('active');
+    const toggleMenu = document.querySelector('.menu')
+    toggleMenu.classList.toggle('active')
 }
 const closeMenu = () => {
-    const toggleMenu = document.querySelector('.menu');
-    toggleMenu.classList.remove('active');
+    const toggleMenu = document.querySelector('.menu')
+    toggleMenu.classList.remove('active')
 }
-
 </script>
 
 <style scoped>
-.action{
+.action {
     position: fixed;
     top: -10px;
-    right:-60px;
-
+    right: -60px;
 }
-.action .profile{
+.action .profile {
     position: relative;
     width: 60px;
     height: 60px;
     border-radius: 50%;
     overflow: hidden;
     cursor: pointer;
-
 }
 .action .profile img {
     position: absolute;
@@ -210,24 +238,24 @@ const closeMenu = () => {
     height: 80%;
     object-fit: cover;
 }
-.action .menu{
+.action .menu {
     position: absolute;
     top: 60px;
     right: -10px;
     padding: 10px 20px;
     background: #fff;
     width: 200px;
-    box-sizing: 0 5px 25px rgba(0,0,0,0.1);
+    box-sizing: 0 5px 25px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
     transition: 0.5s;
     visibility: hidden;
     opacity: 0;
 }
-.action .menu.active{
+.action .menu.active {
     visibility: visible;
     opacity: 1;
 }
-.action .menu::before{
+.action .menu::before {
     content: '';
     position: absolute;
     top: -5px;
@@ -237,7 +265,7 @@ const closeMenu = () => {
     background: #fff;
     transform: rotate(45deg);
 }
-.action .menu h3{
+.action .menu h3 {
     width: 100%;
     text-align: center;
     font-size: 18px;
@@ -246,15 +274,15 @@ const closeMenu = () => {
     color: #555;
     line-height: 1.2em;
 }
-.action .menu h3 span{
+.action .menu h3 span {
     font-size: 14px;
     color: #cecece;
     font-weight: 400;
 }
-.action .menu ul li{
+.action .menu ul li {
     list-style: none;
     padding: 10px 0;
-    border-top: 1px solid rgba(0,0,0,0.5);
+    border-top: 1px solid rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
 }
@@ -268,22 +296,22 @@ const closeMenu = () => {
 }
 .action .menu ul li a {
     display: inline-block;
-    text-decoration:  none;
+    text-decoration: none;
     color: #555;
     font-weight: 500;
     transition: 0.5s;
 }
 .action .menu ul li .router-link {
     display: inline-block;
-    text-decoration:  none;
+    text-decoration: none;
     color: #555;
     font-weight: 500;
     transition: 0.5s;
 }
-.action .menu ul li:hover a{
+.action .menu ul li:hover a {
     color: rgb(8, 228, 8);
 }
-.action .menu ul li:hover .router-link{
+.action .menu ul li:hover .router-link {
     color: rgb(8, 228, 8);
 }
 </style>
