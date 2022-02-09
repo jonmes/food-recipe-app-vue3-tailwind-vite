@@ -33,7 +33,7 @@ export const get_recipe_by_id = {
                 user_id
                 comments {
                     comment
-                    user{
+                    user {
                         name
                     }
                 }
@@ -121,6 +121,32 @@ export const comments = {
                     }
                 }
                 user {
+                    name
+                }
+            }
+        }
+    `,
+}
+
+export const search_recipe = {
+    query: gql`
+        query MyQuery($search: String) {
+            search_recipe_name_ingrediant(args: { search: $search }) {
+                name
+                ingrediant
+                servings
+                avg_rating
+                calories
+                category
+                description
+                id
+                image
+                posted_at
+                prep_time
+                rating_count
+                steps
+                user_id
+                user{
                     name
                 }
             }
