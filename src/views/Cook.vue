@@ -2,8 +2,9 @@
     <div
         class="flex flex-wrap-reverse justify-between px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24 mt-12 z-0"
     >
-        <form
+        <vee-form
             class="relative md:m-10 md:2-1/2 w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+            :validation-schema="schema"
         >
             <h1 class="mb-10 text-4xl">
                 Create
@@ -19,12 +20,14 @@
             <hr mt-10 mb-10 />
             <div class="flex w-full items-center mt-5 mb-5">
                 <label class="w-2/12">Name</label>
-                <input
+                <vee-field
+                    name="name"
                     type="text"
                     v-model="name"
                     class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     placeholder="name"
                 />
+                <ErrorMessage class="text-red-600 ml-5" name="name"/>
             </div>
             <!-- ========================= IMAGE UPLOAD ===========================  -->
             <hr mt-10 mb-10 />
@@ -302,22 +305,24 @@
                     Submit
                 </button>
             </div>
-        </form>
+        </vee-form>
     </div>
 </template>
 
 <script setup>
-import { ref,computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useMutation } from '@vue/apollo-composable'
 import { post_recipe } from '../graphql/mutation'
-import { useRouter, useRoute } from "vue-router";
+import { useRouter, useRoute } from 'vue-router'
 
 const store = useStore()
 const userData = computed(() => store.getters['main/user'])
-const router = useRouter();
-const route = useRoute();
-
+const router = useRouter()
+const route = useRoute()
+const schema = {
+    name: 'required|min:2|max:100'
+}
 
 const name = ref('')
 const imageArray = ref([])
@@ -369,9 +374,14 @@ const removeStep = (index) => {
     steps.value.splice(index, 1)
 }
 
-const { mutate: createRecipe, loading, error, onDone } = useMutation(
-    post_recipe.mutation, () =>(
-    {
+const {
+    mutate: createRecipe,
+    loading,
+    error,
+    onDone,
+} = useMutation(
+    post_recipe.mutation,
+    () => ({
         variables: {
             name: name.value,
             image:
@@ -403,10 +413,10 @@ const { mutate: createRecipe, loading, error, onDone } = useMutation(
     () => ({ fetchPolicy: 'no-cache' })
 )
 
-    onDone(() => {
-      router.push({ name: "Profile" });
+onDone(() => {
+    router.push({ name: 'Profile' })
     //   router.go(0);
-    });
+})
 </script>
 
 <style scoped></style>
