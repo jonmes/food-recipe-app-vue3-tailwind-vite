@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto my-5 p-5" @click="closeMenu">
+    <div class="flex flex-wrap gap-y-24 justify-between py-12 px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24" @click="closeMenu">
         <div class="md:flex no-wrap md:-mx-2">
             <!-- Left Side -->
             <div class="w-full md:w-3/12 md:mx-2">
@@ -77,7 +77,7 @@
                 <div class="my-4"></div>
             </div>
             <!-- Right Side -->
-            <div class="w-full md:w-9/12 mx-2 h-64">
+            <div class="w-full md:w-9/12 mx-2 ">
                 <div class="my-4"></div>
                 <div class="container mx-auto px-4 sm:px-8">
                     <div class="py-8">

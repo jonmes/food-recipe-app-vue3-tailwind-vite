@@ -241,7 +241,7 @@
                 </h2>
             </div>
             <!--     comment-->
-            <form action="/" accept-charset="UTF-8" method="post">
+            <vee-form>
                 <input type="hidden" />
                 <textarea
                     class="w-full shadow-inner p-4 border-0 mb-4 rounded-lg focus:shadow-outline text-2xl"
@@ -260,7 +260,7 @@
                 >
                     Comment
                 </button>
-            </form>
+            </vee-form>
             <div
                 class="bg-white rounded-lg p-3 flex flex-col justify-center items-center md:items-start shadow-lg mb-4"
                 v-for="comment in recipeDetail.recipes_by_pk.comments"

@@ -5,6 +5,7 @@
         <vee-form
             class="relative md:m-10 md:2-1/2 w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
             :validation-schema="schema"
+            @submit="register"
         >
             <h1 class="mb-10 text-4xl">
                 Create
@@ -27,7 +28,7 @@
                     class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     placeholder="name"
                 />
-                <ErrorMessage class="text-red-600 ml-5" name="name"/>
+                <ErrorMessage class="text-red-600 ml-5" name="name" />
             </div>
             <!-- ========================= IMAGE UPLOAD ===========================  -->
             <hr mt-10 mb-10 />
@@ -40,6 +41,14 @@
                 >
                     Upload Images
                 </button>
+                <vee-field
+                    name="images"
+                    type="text"
+                    v-model="imageArray"
+                    class="shadow hidden appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    placeholder="name"
+                />
+                <ErrorMessage class="text-red-600 ml-5" name="images" />
             </div>
             <!-- <p class="block">{{imageArray}}</p> -->
             <div
@@ -105,12 +114,14 @@
             <hr mt-10 mb-10 />
             <div class="flex w-full items-center mt-5 mb-5">
                 <label class="w-2/12">Category</label>
-                <input
+                <vee-field
+                    name="category"
                     type="text"
                     v-model="category"
                     class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     placeholder=""
                 />
+                <ErrorMessage class="text-red-600 ml-5" name="category" />
                 <input type="text" v-model="userData" class="hidden" />
 
                 <!-- Dropdown menu -->
@@ -119,34 +130,40 @@
             <hr mt-10 mb-10 />
             <div class="flex w-full items-center mt-5 mb-5">
                 <label class="w-2/12">Preparation Time</label>
-                <input
+                <vee-field
+                    name="prep_time"
                     type="number"
                     v-model="prep_time"
                     class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     placeholder="10 - 20 min"
                 />
+                <ErrorMessage class="text-red-600 ml-5" name="prep_time" />
             </div>
             <!-- ============================= CALORIES   ===================================== -->
             <hr mt-10 mb-10 />
             <div class="flex w-full items-center mt-5 mb-5">
                 <label class="w-2/12">Calories</label>
-                <input
+                <vee-field
+                    name="calories"
                     type="number"
                     v-model="calories"
                     class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     placeholder="1000"
                 />
+                <ErrorMessage class="text-red-600 ml-5" name="calories" />
             </div>
             <!-- ============================= SERVING   ===================================== -->
             <hr mt-10 mb-10 />
             <div class="flex w-full items-center mt-5 mb-5">
                 <label class="w-2/12">Serving</label>
-                <input
+                <vee-field
+                    name="serving"
                     type="number"
                     v-model="servings"
                     class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    placeholder="3"
+                    placeholder="10"
                 />
+                <ErrorMessage class="text-red-600 ml-5" name="serving" />
             </div>
             <!-- ================================= INGREDIANTS ==================================== -->
 
@@ -159,12 +176,16 @@
                 >
                     <div class="flex w-full">
                         <label class="w-2/12">Ingredient</label>
-                        <input
+                        <vee-field
+                            :name="`ingrediant[${index}]`"
                             v-model="food.ing"
-                            :name="`ingrediant[${index}][ing]`"
                             type="text"
                             class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             placeholder="Ingredient Name"
+                        />
+                        <ErrorMessage
+                            class="text-red-600 ml-5"
+                            name="ingrediant[1]"
                         />
 
                         <!-- <label class="pl-12 w-2/12">Amount</label>
@@ -230,15 +251,16 @@
                 >
                     <div class="flex w-full">
                         <label class="w-2/12">Step {{ index + 1 }}</label>
-                        <textarea
-                            v-model="foodStep.step"
+                        <vee-field
+                            as="textarea"
                             :name="`steps[${index}][step]`"
+                            v-model="foodStep.step"
                             type="text"
                             rows="5"
                             cols="60"
                             class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             placeholder="Steps..."
-                        ></textarea>
+                        ></vee-field>
 
                         <button
                             class="uppercase ml-4 p-3 flex items-center border border-red-300 hover:border-red-600 text-red-500 hover:text-white hover:bg-red-600 max-w-max shadow-sm hover:shadow-lg rounded-full w-12 h-12"
@@ -287,19 +309,23 @@
             <hr mt-10 mb-10 />
             <div class="flex w-full items-center mt-5 mb-5">
                 <label class="w-2/12">Description</label>
-                <textarea
+                <vee-field
+                    as="textarea"
+                    name="description"
                     v-model="description"
                     type="text"
                     rows="5"
                     cols="60"
                     class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     placeholder="Description..."
-                ></textarea>
+                >
+                </vee-field>
+                <ErrorMessage class="text-red-600 ml-5" name="description" />
             </div>
             <div class="form-group">
                 <button
                     @click="createRecipe()"
-                    type="button"
+                    type="submit"
                     class="bg-green hover:bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold py-2 px-4 rounded-full"
                 >
                     Submit
@@ -321,15 +347,26 @@ const userData = computed(() => store.getters['main/user'])
 const router = useRouter()
 const route = useRoute()
 const schema = {
-    name: 'required|min:2|max:100'
+    name: 'required|min:2|max:100',
+    category: 'required',
+    prep_time: 'required|integer',
+    calories: 'required|integer',
+    serving: 'required|integer',
+    ingrediant: 'required',
+    steps: 'required',
+    description: 'required|min:20',
+}
+
+const register = (values) => {
+    console.log(values)
 }
 
 const name = ref('')
 const imageArray = ref([])
 const category = ref('')
-const prep_time = ref(0)
-const calories = ref(0)
-const servings = ref(0)
+const prep_time = ref('')
+const calories = ref('')
+const servings = ref('')
 const description = ref('')
 
 const openUploadModal = () => {
@@ -355,7 +392,9 @@ const addIngrediant = () => {
 }
 
 const removeIngrediant = (index) => {
-    ingrediant.value.splice(index, 1)
+    if (ingrediant.value.length > 1) {
+        ingrediant.value.splice(index, 1)
+    }
 }
 
 const addStep = () => {
@@ -371,7 +410,9 @@ const addStep = () => {
     )
 }
 const removeStep = (index) => {
-    steps.value.splice(index, 1)
+    if (steps.value.length > 1) {
+        steps.value.splice(index, 1)
+    }
 }
 
 const {
