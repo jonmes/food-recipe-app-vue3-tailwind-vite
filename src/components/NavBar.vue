@@ -11,7 +11,7 @@
                 @click="closeMenu"
             >
                 <span
-                    class="before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-green relative inline-block"
+                    class="before:block before:absolute before:-inset-1 hover:shadow-2xl hover:before:-skew-y-1 before:-skew-y-6 before:bg-green relative inline-block"
                     ><span class="relative">r</span>
                     <span class="relative text-green-200">E</span>
                     <span class="relative">cipe</span>
