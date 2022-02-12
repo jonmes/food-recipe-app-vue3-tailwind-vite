@@ -67,37 +67,33 @@
                 />
                 <div class="ml-5 inline-block">
                     <div class="mr-10 inline-block">
-                    {{ recipeDetail.recipes_by_pk.rating_count.toFixed(0) }}
-                    Ratings
-
+                        {{ recipeDetail.recipes_by_pk.rating_count.toFixed(0) }}
+                        Ratings
                     </div>
-                <Popper arrow class="inline-block">
-                    <button
-                        class="bg-green sm:w-auto h-8 px-8 font-large text-white rounded-xl whitespace-nowrap hover:shadow-xl transition-shadow duration-300"
-                    >
-                        Rate
-                    </button>
-                    <template #content="{ close }">
-                        <div class=" flex justify-center w-full">
-                            <vue3starRatings
-                                v-model="ratingVal"
-                                starSize="25"
-                                starColor="#71B214"
-                                inactiveColor="#e6ebdf"
-                                controlBg="grey"
-                                disable-click="true"
-                                class="w-full"
-                            />
-
-                        </div>
-                           <div
-                                class="flex justify-center"
-                            >
+                    <Popper arrow class="inline-block">
+                        <button
+                            class="bg-green sm:w-auto h-8 px-8 font-large text-white rounded-xl whitespace-nowrap hover:shadow-xl transition-shadow duration-300"
+                        >
+                            Rate
+                        </button>
+                        <template #content="{ close }">
+                            <div class="flex justify-center w-full">
+                                <vue3starRatings
+                                    v-model="ratingVal"
+                                    starSize="25"
+                                    starColor="#71B214"
+                                    inactiveColor="#e6ebdf"
+                                    controlBg="grey"
+                                    disable-click="true"
+                                    class="w-full"
+                                />
+                            </div>
+                            <div class="flex justify-center">
                                 {{ ratingVal }} Stars
                             </div>
                             <button
                                 class="bg-green mr-5 sm:w-auto h-8 px-10 font-large text-white rounded-xl whitespace-nowrap hover:shadow-xl transition-shadow duration-300"
-                                @click="rateRecipe(); close;"
+                                @click="rateRecipe()"
                             >
                                 Rate
                             </button>
@@ -106,8 +102,8 @@
                                 @click="close"
                                 >Close</Button
                             >
-                    </template>
-                </Popper>
+                        </template>
+                    </Popper>
                 </div>
             </div>
 
@@ -241,29 +237,34 @@
                 </h2>
             </div>
             <!--     comment-->
-            <vee-form>
+            <div
+                v-if="reg_show_alert"
+                class="text-white bg-green-400 text-2xl text-center font-bold p-5 mb-4"
+                :class="reg_alert_variant"
+            >
+                {{ reg_alert_msg }}
+            </div>
+            <vee-form :validation-schema="schema" @submit="register">
                 <input type="hidden" />
-                <textarea
+                <vee-field
+                    type="text"
+                    name="comment"
                     class="w-full shadow-inner p-4 border-0 mb-4 rounded-lg focus:shadow-outline text-2xl"
                     v-model="newComment"
                     placeholder="Comment..."
-                    cols="6"
-                    rows="4"
                     id="comment_content"
-                    spellcheck="false"
-                    required
-                ></textarea>
+                ></vee-field>
+                <ErrorMessage class="text-red-600 ml-5" name="comment" />
                 <button
                     class="font-bold mb-10 py-2 px-4 w-full bg-green text-lg text-white shadow-md rounded-lg"
-                    @click="createComment()"
-                    type="button"
+                    type="submit"
                 >
                     Comment
                 </button>
             </vee-form>
             <div
                 class="bg-white rounded-lg p-3 flex flex-col justify-center items-center md:items-start shadow-lg mb-4"
-                v-for="comment in recipeDetail.recipes_by_pk.comments"
+                v-for="comment in commentSub"
                 :key="comment"
             >
                 <div class="flex flex-row justify-center mr-2">
@@ -295,12 +296,13 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
-import { useQuery } from '@vue/apollo-composable'
+import { useQuery, useSubscription } from '@vue/apollo-composable'
 import { get_recipe_by_id } from '../graphql/query'
 import vue3starRatings from 'vue3-star-ratings'
 import { useRouter, useRoute } from 'vue-router'
 import { useMutation } from '@vue/apollo-composable'
 import { create_comment, rate_recipe } from '../graphql/mutation'
+import { user_comment_sub } from '../graphql/subscription'
 import Popper from 'vue3-popper'
 
 const store = useStore()
@@ -311,11 +313,53 @@ const id = route.params.id // read parameter id (it is reactive)
 const image = ref('')
 const newComment = ref('')
 const ratingVal = ref(0)
+const commentSub = ref([])
+const variables = ref({
+    id,
+})
+
+const reg_in_submission = ref(false)
+const reg_show_alert = ref(false)
+const reg_alert_variant = ref('bg-green-400')
+const reg_alert_msg = ref('')
+const schema = {
+    comment: 'required',
+}
+
+const register = (values) => {
+    console.log(values)
+    reg_show_alert.value = true
+    reg_in_submission.value = true
+    reg_alert_variant.value = ref('bg-green-500')
+    reg_alert_msg.value = ref('Please wait! Your Comment!')
+
+    reg_alert_variant.value = ref('bg-green-500')
+    reg_alert_msg.value = ref('Success! Your recipe has been created.')
+    createComment()
+    setTimeout(() => {
+    reg_show_alert.value = false
+    }, 1000)
+
+}
+
 const {
     result: recipeDetail,
     loading: recipeLoading,
     error: recipeError,
 } = useQuery(get_recipe_by_id.query, { id })
+
+const {
+    loading: commentLoadingSub,
+    result: commentDetailSub,
+    error: commentErrorSub,
+    onResult: commentonResultSub,
+} = useSubscription(user_comment_sub.subscription, variables)
+
+commentonResultSub((result) => {
+    console.log('from subscription', result.data.comments[0])
+    commentSub.value = []
+    commentSub.value.push(...result.data.comments)
+})
 
 const {
     mutate: createComment,
@@ -330,23 +374,24 @@ const {
     },
 }))
 
-const { mutate: rateRecipe,
-        loading: ratingLoading,
-        error: ratingError,
-        onDone: ratingOnDone
-        }= useMutation(rate_recipe.mutation, () => ({
-            variables: {
-                rating_val: ratingVal.value,
-                recipe_id: id,
-                user_id: userData.value.sub
-            }
-        }))
+const {
+    mutate: rateRecipe,
+    loading: ratingLoading,
+    error: ratingError,
+    onDone: ratingOnDone,
+} = useMutation(rate_recipe.mutation, () => ({
+    variables: {
+        rating_val: ratingVal.value,
+        recipe_id: id,
+        user_id: userData.value.sub,
+    },
+}))
 
 onDone(() => {
-    router.push({ name: 'Profile' })
+    router.push({ name: 'Details' })
 })
 ratingOnDone(() => {
-    router.push({ name: 'Details'})
+    router.push({ name: 'Details' })
 })
 
 const convertTime = (apiTime) => {

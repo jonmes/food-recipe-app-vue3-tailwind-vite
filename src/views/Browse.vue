@@ -53,14 +53,14 @@
         </div>
     </section>
     <section
-        class="flex flex-wrap gap-y-24 justify-between py-12 px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24"
+        class="flex flex-wrap gap-y-24 justify-evenly py-12 px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24"
         @click="closeMenu"
     >
         <p v-if="recipeError">Something went wrong...</p>
         <p v-if="recipeLoading">Loading... Login First...</p>
         <template v-else>
             <div
-                class="max-w-xs mb-5 rounded-md overflow-hidden hover:scale-105 transition duration-500 cursor-pointer"
+                class="max-w-xs mb-5 rounded-md  overflow-hidden hover:scale-105 transition duration-500 cursor-pointer"
                 v-for="rec in userPost.recipes"
                 :key="rec.id"
             >
@@ -119,15 +119,34 @@
 </template>
 
 <script setup>
-import { useQuery } from '@vue/apollo-composable'
+import { ref } from 'vue'
+import { useQuery, useSubscription } from '@vue/apollo-composable'
 import { get_recipes } from '../graphql/query'
+import { browse_recipes } from '../graphql/subscription'
 import vue3starRatings from 'vue3-star-ratings'
+
+const recipeList = ref([])
 
 const {
     result: userPost,
     loading: recipeLoading,
     error: recipeError,
 } = useQuery(get_recipes.query)
+
+
+const {
+    loading: recipeLoadingSub,
+    result: recipeResultSub,
+    error: recipeErrorSub,
+    onResult: recipeOnResultSub
+} = useSubscription(browse_recipes.subscription)
+
+recipeOnResultSub((result) => {
+    console.log('from subscription', result.data.recipes)
+    recipeList.value = []
+    recipeList.value.push(...result.data.recipes)
+})
+
 </script>
 
 <style lang="scss" scoped></style>

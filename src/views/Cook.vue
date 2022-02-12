@@ -1,7 +1,14 @@
 <template>
     <div
-        class="flex flex-wrap-reverse justify-between px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24 mt-12 z-0"
+        class="flex flex-wrap justify-center px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24 mt-12 z-0"
     >
+        <div
+            v-if="reg_show_alert"
+            class="text-white text-2xl text-center font-bold p-5 mb-4"
+            :class="reg_alert_variant"
+        >
+            {{ reg_alert_msg }}
+        </div>
         <vee-form
             class="relative md:m-10 md:2-1/2 w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
             :validation-schema="schema"
@@ -45,7 +52,7 @@
                     name="images"
                     type="text"
                     v-model="imageArray"
-                    class="shadow hidden appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    class="hidden "
                     placeholder="name"
                 />
                 <ErrorMessage class="text-red-600 ml-5" name="images" />
@@ -253,7 +260,7 @@
                         <label class="w-2/12">Step {{ index + 1 }}</label>
                         <vee-field
                             as="textarea"
-                            :name="`steps[${index}][step]`"
+                            :name="`steps[${index}]`"
                             v-model="foodStep.step"
                             type="text"
                             rows="5"
@@ -261,7 +268,10 @@
                             class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             placeholder="Steps..."
                         ></vee-field>
-
+                        <ErrorMessage
+                            class="text-red-600 ml-5"
+                            name="steps[1]"
+                        />
                         <button
                             class="uppercase ml-4 p-3 flex items-center border border-red-300 hover:border-red-600 text-red-500 hover:text-white hover:bg-red-600 max-w-max shadow-sm hover:shadow-lg rounded-full w-12 h-12"
                             @click="removeStep(index)"
@@ -324,7 +334,6 @@
             </div>
             <div class="form-group">
                 <button
-                    @click="createRecipe()"
                     type="submit"
                     class="bg-green hover:bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold py-2 px-4 rounded-full"
                 >
@@ -346,6 +355,11 @@ const store = useStore()
 const userData = computed(() => store.getters['main/user'])
 const router = useRouter()
 const route = useRoute()
+
+const reg_in_submission = ref(false)
+const reg_show_alert = ref(false)
+const reg_alert_variant = ref('bg-green-300')
+const reg_alert_msg = ref('Please wait! Your Recipe is being created!')
 const schema = {
     name: 'required|min:2|max:100',
     category: 'required',
@@ -355,10 +369,18 @@ const schema = {
     ingrediant: 'required',
     steps: 'required',
     description: 'required|min:20',
+    images: 'required'
 }
-
 const register = (values) => {
     console.log(values)
+    reg_show_alert.value = true
+    reg_in_submission.value = true
+    reg_alert_variant.value = ref('bg-green-300')
+    reg_alert_msg.value = ref('Please wait! Your Recipe is being created!')
+
+    reg_alert_variant.value = ref('bg-green-300')
+    reg_alert_msg.value = ref('Success! Your recipe has been created.')
+    createRecipe()
 }
 
 const name = ref('')

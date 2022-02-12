@@ -106,6 +106,7 @@ if (store.getters["main/isLoading"] === false) {
     options: {
       reconnect: true,
       // timeout: 30000,
+      lazy: true,
       connectionParams: async () => {
         // console.log(await getHeaders())
         return {

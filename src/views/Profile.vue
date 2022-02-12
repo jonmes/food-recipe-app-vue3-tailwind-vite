@@ -1,5 +1,8 @@
 <template>
-    <div class="flex flex-wrap gap-y-24 justify-between py-12 px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24" @click="closeMenu">
+    <div
+        class="flex flex-wrap gap-y-24 justify-between py-12 px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24"
+        @click="closeMenu"
+    >
         <div class="md:flex no-wrap md:-mx-2">
             <!-- Left Side -->
             <div class="w-full md:w-3/12 md:mx-2">
@@ -77,7 +80,7 @@
                 <div class="my-4"></div>
             </div>
             <!-- Right Side -->
-            <div class="w-full md:w-9/12 mx-2 ">
+            <div class="w-full md:w-9/12 mx-2">
                 <div class="my-4"></div>
                 <div class="container mx-auto px-4 sm:px-8">
                     <div class="py-8">
@@ -165,15 +168,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <p v-if="recipeError">
+                                        <p v-if="userErrorSub">
                                             Something went wrong...
                                         </p>
-                                        <p v-if="recipeLoading">Loading...</p>
+                                        <p v-if="userLoadingSub">Loading...</p>
                                         <template
                                             v-else
-                                            v-for="(
-                                                post, index
-                                            ) in userPost.recipes"
+                                            v-for="(post, index) in userPost[0]
+                                                .data.recipes"
                                             :key="index"
                                         >
                                             <tr>
@@ -210,7 +212,7 @@
                                                     <p
                                                         class="text-gray-900 whitespace-no-wrap"
                                                     >
-                                                        {{post.avg_rating}}
+                                                        {{ post.avg_rating }}
                                                     </p>
                                                 </td>
                                                 <td
@@ -282,9 +284,8 @@
 
 <script setup>
 import { useStore } from 'vuex'
-import { ref, watch, computed } from 'vue'
-import { useQuery, useResult } from '@vue/apollo-composable'
-import { useSubscription } from '@vue/apollo-composable'
+import { ref, watch, computed, watchEffect } from 'vue'
+import { useQuery, useResult, useSubscription } from '@vue/apollo-composable'
 import { user_account, user_post } from '../graphql/query'
 import { user_post_sub } from '../graphql/subscription'
 
@@ -300,7 +301,10 @@ import { user_post_sub } from '../graphql/subscription'
 
 const store = useStore()
 const userData = computed(() => store.getters['main/user'])
-// const userPost = ref([])
+const userPost = ref([])
+const variables = ref({
+    id: userData.value.sub,
+})
 
 const {
     result: userInfo,
@@ -310,41 +314,30 @@ const {
     id: userData.value.sub,
 })
 
-const {
-    result: userPost,
-    loading: recipeLoading,
-    error: recipeError,
-    subscribeToMore 
-} = useQuery(user_post.query, { id: userData.value.sub })
-
-    // const recipes = useResult(userPost, []);
-
-    subscribeToMore(() => ({
-      document: user_post_sub.subscription,
-      variables: {
-        id: userData.value.sub
-      },
-      updateQuery: (previousResult, { subscriptionData }) => {
-          previousResult.recipes.push(subscriptionData.data.recipes)
-          return previousResult
-      }
-    }));
-
-// ======================== Not SUBSCRIPTION ==========================
 // const {
-//     result,
-    // loading: recipeLoading,
-    // error: recipeError,
-// } = useSubscription(user_post.subscription, () => ({ id: userData.value.sub }))
-// watch(
-//     result,
-//     (data) => {
-//         userPost.value.push(data)
-//         console.log(data.recipes)
-//     }
-// )
-// =================================================================
+//     result: userPost,
+//     loading: recipeLoading,
+//     error: recipeError,
+// } = useQuery(user_post.query, { id: userData.value.sub })
 
+// ======================== SUBSCRIPTION ==========================
+
+const {
+    loading: userLoadingSub,
+    result: userPostSub,
+    error: userErrorSub,
+    onResult: useronResultSub,
+} = useSubscription(user_post_sub.subscription, variables)
+
+useronResultSub((result) => {
+    console.log(
+        '[TypedDocumentNode, plain useSubscription] Got subscription result:'
+    )
+    console.log(result)
+    userPost.value.push(result)
+})
+
+// =================================================================
 
 const convertTime = (apiTime) => {
     const date = new Date(apiTime)
@@ -355,7 +348,7 @@ const convertTime = (apiTime) => {
 const closeMenu = () => {
     const toggleMenu = document.querySelector('.menu')
     toggleMenu.classList.remove('active')
-    // console.log(userPost.value)
+    console.log(userPost.value[0].data.recipes[0], 'useronResultsub')
 }
 </script>
 
