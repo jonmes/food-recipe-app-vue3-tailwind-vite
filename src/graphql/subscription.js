@@ -32,7 +32,7 @@ export const user_comment_sub = {
 }
 
 export const browse_recipes = {
-    sub: gql`
+    subscription: gql`
         subscription {
             recipes {
                 avg_rating

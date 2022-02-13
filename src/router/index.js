@@ -4,7 +4,7 @@ import About from '../views/About.vue'
 import Cook from '../views/Cook.vue'
 import Profile from '../views/Profile.vue'
 import ImageUpload from '../components/ImageUpload.vue'
-import Details from '../views/Details.vue'
+// import Details from '../views/Details.vue'
 import Browse from '../views/Browse.vue'
 const routes = [
     {
@@ -35,7 +35,7 @@ const routes = [
     {
         path: '/details',
         name: 'Details',
-        component: Details,
+        component: () => import (/*webpackChunckName: "Details" */ "../views/Details.vue"),
     },
     {
         path: '/browse',

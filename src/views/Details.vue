@@ -61,8 +61,8 @@
                     starColor="#71B214"
                     inactiveColor="#e6ebdf"
                     controlBg="transparent"
-                    showControl="false"
-                    disableClick="true"
+                    showControl=false
+                    disableClick=true
                     controlSize="0"
                 />
                 <div class="ml-5 inline-block">
@@ -409,6 +409,9 @@ const convertTime = (apiTime) => {
     padding: 0;
     margin-left: 40px;
     margin-top: 20px;
+}
+#stars > div > button{
+    display: none;
 }
 
 :deep(.popper) {
