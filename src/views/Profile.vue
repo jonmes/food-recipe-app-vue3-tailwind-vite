@@ -135,7 +135,7 @@
                             class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto "
                         >
                             <div
-                                class="inline-block min-w-full shadow rounded-lg h-80 overflow-y-auto"
+                                class="inline-block min-w-full shadow rounded-lg overflow-y-scrool"
                             >
                                 <table class="min-w-full leading-normal">
                                     <thead>
@@ -246,6 +246,7 @@
                                                         name="trash-alt"
                                                         animation="tada-hover"
                                                         color="green"
+                                                        @click="del(post.id)"
                                                     ></box-icon>
                                                 </td>
                                             </tr>
@@ -286,9 +287,10 @@
 <script setup>
 import { useStore } from 'vuex'
 import { ref, watch, computed, watchEffect } from 'vue'
-import { useQuery, useResult, useSubscription } from '@vue/apollo-composable'
+import { useQuery, useResult, useMutation, useSubscription } from '@vue/apollo-composable'
 import { user_account, user_post } from '../graphql/query'
 import { user_post_sub } from '../graphql/subscription'
+import { delete_recipe } from '../graphql/mutation'
 
 // ========= ALTERNATIVE WAY TO CHANGE QUERY VARIABLE ==========
 // const variables = ref({ id: '' })
@@ -320,6 +322,20 @@ const {
 //     loading: recipeLoading,
 //     error: recipeError,
 // } = useQuery(user_post.query, { id: userData.value.sub })
+const recId = ref()
+const del = (id) => {
+    recId.value = id
+    deleteRecipe()
+}
+const {
+    mutate: deleteRecipe, 
+    loading: deleteLoading,
+    error: deletionError
+} = useMutation(delete_recipe.mutation, () => ({
+    variables: {
+        id: recId.value
+    }
+}))
 
 // ======================== SUBSCRIPTION ==========================
 
@@ -330,10 +346,8 @@ const {
     onResult: useronResultSub,
 } = useSubscription(user_post_sub.subscription, variables)
 
+
 useronResultSub((result) => {
-    console.log(
-        '[TypedDocumentNode, plain useSubscription] Got subscription result:'
-    )
     console.log(result)
     userPost.value.push(result)
 })

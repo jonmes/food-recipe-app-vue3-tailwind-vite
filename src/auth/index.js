@@ -68,7 +68,7 @@ export const authGuard = async function (to, from, next) {
     store.dispatch("main/setAuthLoadingStatus", false);
     store.dispatch("main/setUserAuthenticated", false);
     console.log('user unAuthenticated')
-    return {go:next("/login"), vld: false};
+    return {go:signIn(), vld: false};
   }
 };
 

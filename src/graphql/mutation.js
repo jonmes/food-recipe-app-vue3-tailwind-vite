@@ -43,6 +43,16 @@ export const post_recipe = {
     `,
 }
 
+export const delete_recipe = {
+    mutation: gql`
+        mutation ($id: Int!) {
+            delete_recipes_by_pk(id: $id) {
+                id
+            }
+        }
+    `,
+}
+
 export const update_account = {
     query: gql`
         mutation ($id: String!) {

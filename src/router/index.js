@@ -76,21 +76,6 @@ router.beforeEach(async (to, from, next) => {
     }else{
         await (await authGuard(to, from, next)).go
     }
-
-
-    // if (!to.meta.auth) {
-    //   console.log("router -- auth NOT Required");
-    //   next();
-    // } else {
-    //   console.log("router -- auth Required");
-    //   if(await authGuard(to, from, next).vld){
-    //       next();
-    //   }else{
-    //       await signIn()
-    //       await (await authGuard(to, from, next)).go
-    //   }
-
-    // }
   });
 
 export default router
