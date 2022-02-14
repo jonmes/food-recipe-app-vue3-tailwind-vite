@@ -368,7 +368,7 @@ const schema = {
     serving: 'required|integer',
     ingrediant: 'required',
     steps: 'required',
-    description: 'required|max:20',
+    description: 'required|min:20',
     images: 'required'
 }
 const register = (values) => {

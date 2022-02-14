@@ -35,7 +35,7 @@ export const signIn = async () => {
     store.dispatch("main/setAuthLoadingStatus", false);
     token = await auth0Client.getTokenSilently();
     userInfo = await auth0Client.getUser();
-    console.log(userInfo.sub);
+    // console.log(userInfo.sub);
     // console.log(token, "this is token");
   } catch (e) {
     console.error(e);
@@ -52,7 +52,7 @@ export const authGuard = async function (to, from, next) {
   auth0Client = await getAuthClient();
   store.dispatch("main/setAuthClient", auth0Client);
 
-  console.log(await auth0Client.getTokenSilently());
+  // console.log(await auth0Client.getTokenSilently());
 
   if (await auth0Client.isAuthenticated()) {
     console.log("User is authenticated");
@@ -61,14 +61,14 @@ export const authGuard = async function (to, from, next) {
     store.dispatch("main/setAuthLoadingStatus", true);
     store.dispatch("main/setUserAuthenticated", false);
     console.log('user authenitcated')
-    return next();
+    return {go:next(), vld: true};
   } else {
     console.log("User not authenticated >> redirect to login");
     store.dispatch("main/setUser", null);
     store.dispatch("main/setAuthLoadingStatus", false);
     store.dispatch("main/setUserAuthenticated", false);
     console.log('user unAuthenticated')
-    return next("/login");
+    return {go:next("/login"), vld: false};
   }
 };
 

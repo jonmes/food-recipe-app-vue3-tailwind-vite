@@ -87,3 +87,20 @@ export const rate_recipe = {
         }
     `,
 }
+
+export const user_favorite = {
+    mutation: gql`
+        mutation ($user_id: String, $recipe_id: Int) {
+            insert_favorites_one(
+                object: { user_id: $user_id, recipe_id: $recipe_id }
+            ) {
+                recipe {
+                    id
+                    name
+                    image
+                    avg_rating
+                }
+            }
+        }
+    `,
+}

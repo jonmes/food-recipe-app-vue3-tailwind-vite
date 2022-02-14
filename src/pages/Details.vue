@@ -198,7 +198,6 @@
                             <button
                                 type="button"
                                 class="h-14 px-6 py-2 font-semibold rounded-xl bg-green hover:bg-gradient-to-r from-green-500 to-pink-500 text-white items-center"
-                                @click="createFav()"
                             >
                                 <i class="bx bxs-heart bx-md"></i>
                                 <span> add to favorite</span>
@@ -302,7 +301,7 @@ import { get_recipe_by_id } from '../graphql/query'
 import vue3starRatings from 'vue3-star-ratings'
 import { useRouter, useRoute } from 'vue-router'
 import { useMutation } from '@vue/apollo-composable'
-import { create_comment, rate_recipe, user_favorite } from '../graphql/mutation'
+import { create_comment, rate_recipe } from '../graphql/mutation'
 import { user_comment_sub } from '../graphql/subscription'
 import Popper from 'vue3-popper'
 
@@ -373,18 +372,6 @@ const {
         recipe_id: id,
         user_id: userData.value.sub,
     },
-}))
-
-
-const {
-    mutate: createFav,
-    loading: favLoading,
-    error: favError,
-} = useMutation(user_favorite.mutation, () =>({
-    variables:{
-        recipe_id: id,
-        user_id: userData.value.sub
-    }
 }))
 
 const {

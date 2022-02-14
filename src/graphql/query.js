@@ -33,12 +33,33 @@ export const get_recipe_by_id = {
                 user_id
                 comments {
                     comment
-                    user{
+                    user {
                         name
                     }
                 }
                 user {
                     name
+                }
+            }
+        }
+    `,
+}
+
+export const get_favorite = {
+    query: gql`
+        query MyQuery($user_id: String) {
+            favorites(where: { user_id: { _eq: $user_id } }) {
+                id
+                recipe {
+                    image
+                    id
+                    name
+                    avg_rating
+                    category
+                    user {
+                        name
+                    }
+                    description
                 }
             }
         }
@@ -128,7 +149,6 @@ export const comments = {
     `,
 }
 
-
 export const search_recipe = {
     query: gql`
         query MyQuery($search: String) {
@@ -147,7 +167,7 @@ export const search_recipe = {
                 rating_count
                 steps
                 user_id
-                user{
+                user {
                     name
                 }
             }

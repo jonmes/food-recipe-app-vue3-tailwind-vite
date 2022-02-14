@@ -61,7 +61,7 @@
                         class="text-lg md:text-base lg:text-lg font-medium group"
                         :class="{ 'text-green': activeMenu === 'about' }"
                     >
-                        <router-link :to="{ name: 'About' }" @click="login">
+                        <router-link :to="{ name: 'About' }">
                             About
                         </router-link>
                         <div
@@ -118,9 +118,8 @@
                             </div>
                             <div class="menu">
                                 <h3>
-                                    {{ nickname }}<br /><span
-                                        >Website Designer</span
-                                    >
+                                    {{ nickname }}<br />
+                                    
                                 </h3>
                                 <ul>
                                     <li>
@@ -138,10 +137,14 @@
                                     </li>
                                     <li>
                                         <box-icon
-                                            name="cog"
-                                            animation="spin-hover"
-                                            ><i class="bx bx-cog"></i></box-icon
-                                        ><a href="#">Settings</a>
+                                            name="heart"
+                                            animation="flashing-hover"
+                                            ><i class="bx bx-heart bx-border-circle"></i></box-icon
+                                        ><router-link
+                                            @click="closeMenu"
+                                            :to="{ name: 'Favorites' }"
+                                            >My Favorites</router-link
+                                        >
                                     </li>
                                     <li>
                                         <box-icon
@@ -185,6 +188,7 @@ import { signIn, signOut } from '../auth'
 import { useRouter } from 'vue-router'
 
 import HamburgerIcon from '../assets/icons/hamburger.svg'
+// import { email } from '@vee-validate/rules'
 const menus = ['Home', 'Browse', 'Cook', 'Contact']
 const sidebarOpen = ref(false)
 const activeMenu = 'Home'
@@ -194,13 +198,15 @@ const router = useRouter()
 const authLoading = computed(() => store.getters['main/isLoading'])
 const authenticated = computed(() => store.getters['main/isAuthenticated'])
 const userData = computed(() => store.getters['main/user'])
-let nickname = ref()
+let nickname = ref('')
+const email = ref('')
 
 const login = async () => {
     await signIn()
     if (authenticated.value) {
         router.push({ name: 'home' })
         nickname.value = userData.value.nickname
+        email.value = userData.value.email
     }
 }
 const logout = async () => {

@@ -76,6 +76,7 @@
                 v-for="rec in searchResult"
                 :key="rec.id"
             >
+                this is search area
                 <router-link
                     role="button"
                     :to="{
@@ -133,7 +134,7 @@
                 v-for="rec in userPost.recipes"
                 :key="rec.id"
             >
-
+                this is not search
                 <router-link
                     role="button"
                     :to="{
@@ -216,12 +217,6 @@ const searchView = (val) => {
 }
 
 const {
-    result: userPost,
-    loading: recipeLoading,
-    error: recipeError,
-} = useQuery(get_recipes.query)
-
-const {
     result: searchRecipe,
     loading: searchLoading,
     error: searchError,
@@ -230,7 +225,6 @@ const {
 watchEffect(() => {
     console.log(search.value, 'from watcher')
     console.log(searchRecipe.value, 'search from watcher')
-
     if (selectedTime.value == 'All' && searchStatus.value) {
         searchResult.value =
             searchRecipe.value.search_recipe_name_ingrediant.filter(
@@ -292,6 +286,13 @@ watchEffect(() => {
     }
 })
 
+const {
+    result: userPost,
+    loading: recipeLoading,
+    error: recipeError,
+} = useQuery(get_recipes.query)
+
+const ingSearch = (ingVal, searchVal) => {}
 </script>
 
 <style lang="scss" scoped></style>
